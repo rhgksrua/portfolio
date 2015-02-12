@@ -29,3 +29,7 @@ Route::get('/hello', function()
 Route::get('/another', function() {
 	return 'added another another';
 });
+
+Route::get('/final', function() {
+	return 'final change';
+});
