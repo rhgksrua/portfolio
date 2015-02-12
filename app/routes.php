@@ -30,3 +30,6 @@ Route::get('/another', function() {
 	return 'added another another';
 });
 
+Route::get('/final', function() {
+	return 'dev prod setup done!!!!!';
+});
