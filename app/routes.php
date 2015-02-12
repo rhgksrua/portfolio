@@ -25,3 +25,7 @@ Route::get('/hello', function()
 {
     return 'another page';
 });
+
+Route::get('/another', function() {
+	return 'added another another';
+});
