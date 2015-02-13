@@ -16,20 +16,3 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('/test', function()
-{
-    return 'hello world';
-});
-
-Route::get('/hello', function()
-{
-    return 'another page';
-});
-
-Route::get('/another', function() {
-	return 'added another another';
-});
-
-Route::get('/final', function() {
-	return 'dev prod setup done!!!!!';
-});
