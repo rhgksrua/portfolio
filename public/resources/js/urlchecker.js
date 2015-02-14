@@ -45,7 +45,7 @@ function checkURL(e) {
         if (httpRequest.readyState === 4) {
             
             if(httpRequest.status === 200) {
-                console.log(httpRequest.responseText);
+                //console.log(httpRequest.responseText);
                 var results = document.getElementsByClassName("results")[0];
                 if (httpRequest.responseText == "true") {
                     results.textContent = "URL Works";

@@ -16,4 +16,18 @@ Route::get('/', function()
 	return View::make('home');
 });
 
+/**
+ * URL Checker get/post
+ * XMLrequest to /urlcheck to check status of a website.
+ */
 Route::get('/urlchecker', 'UrlCheckerController@index');
+Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
+
+
+Route::get('/test', function() {
+
+	$url = 'http://www.google.com';
+	$url_headers = get_headers($url);
+	dd($url_headers);
+
+});
