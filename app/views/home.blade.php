@@ -38,8 +38,8 @@
 				<h2>Projects</h2>
 				<ul class="project-list">
 					<li class="project">
-						<a href="">Project One</a>
-						<span>Description of project one</span>
+						<a href="/urlchecker">Url Checker</a>
+						<span>Check url status</span>
 					</li>
 					<li class="project">
 						<a href="">Project Two</a>

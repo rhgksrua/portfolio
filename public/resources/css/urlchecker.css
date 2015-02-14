@@ -1,0 +1,51 @@
+html, body {
+	font-family: 'Montserrat', sans-serif;
+	letter-spacing: 2px;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #000;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #000;
+	text-decoration: none;
+}
+
+a:active {
+	color: #000;
+	text-decoration: none;
+}
+
+h1 {
+	font-size: 4em;
+	font-weight: 700;
+}
+
+h2 {
+	font-size: 2em;
+	font-weight: 700;
+}
+.container {
+    margin: 100px 50px 50px 50px;
+}
+
+.hide {
+	display: none;
+}
+
+/* URL input field */
+input {
+	box-sizing: border-box;
+	margin: 10px 0 10px 0;
+	padding: 10px 10px 10px 10px;
+    border: 0 solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    width: 100%;
+}
