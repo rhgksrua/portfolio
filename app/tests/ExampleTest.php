@@ -14,4 +14,11 @@ class ExampleTest extends TestCase {
 		$this->assertTrue($this->client->getResponse()->isOk());
 	}
 
+	public function testUrlCheckerRouteWorks()
+	{
+		$this->call('GET', '/urlchecker');
+		$this->assertResponseOk();
+		$this->assertResponseStatus(200);
+	}
+
 }
