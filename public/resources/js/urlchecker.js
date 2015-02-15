@@ -9,6 +9,7 @@ sub.addEventListener('click', checkURL, false);
 textbox.addEventListener('keyup', submitURL, false);
 clearText.addEventListener('click', function() {
     document.getElementById("url").value = "";
+    document.getElementById("url").focus();
 }, false);
 
 

@@ -26,6 +26,7 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
 Route::get('/urltest', 'UrlCheckerController@checkUrl');
 Route::any('/test', function() {
 
+	// USE THIS to return more than true/false back to urlchecker
 	$url = 'http://www.google.com';
 	$url_headers = get_headers($url);
 	return Response::json(['hello', 'world']);
@@ -33,7 +34,8 @@ Route::any('/test', function() {
 });
 
 Route::get('/jstest', function() {
-	return 'hi';
+	return filter_var('http://www.google.com', FILTER_VALIDATE_URL) ? "yup" : "not a url";
+
 });
 
 Route::get('/templatetest', function() {

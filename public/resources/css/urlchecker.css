@@ -109,7 +109,7 @@ h2 {
     width: 4px;
     height: 16px;
     border-radius: 1px;
-    background: #909090;
+    background: #ffffff;
     transform: rotate(45deg);
     
 }
@@ -121,7 +121,7 @@ h2 {
     width: 4px;
     height: 16px;
     border-radius: 1px;
-    background: #909090;
+    background: #ffffff;
     transform: rotate(-45deg);
     
 }

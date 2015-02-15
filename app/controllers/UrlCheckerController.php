@@ -13,8 +13,23 @@ class UrlCheckerController extends BaseController {
 	 */
 	public function checkUrl()
 	{
+		// Returns 
+		// array
+		// error: explanation
+		// url: checked url
+		// status: status
+		// works: true or false
+
+		$jsonResponse = [];
+
+		
 		$url = Input::get("url");
-		if (empty($url)) return "false";
+		if (empty($url)) {
+			return "false";
+			//$jsonResponse["error"] = "Url is missing.";
+			//return $jsonResponse;
+		}
+
 
 
 
