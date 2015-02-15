@@ -1,8 +1,16 @@
-var sub = document.getElementById("submit");
+;(function() {
+
+var sub = document.getElementById("btn");
 var textbox = document.getElementById("url");
+var clearText = document.getElementById("close");
+
 
 sub.addEventListener('click', checkURL, false);
 textbox.addEventListener('keyup', submitURL, false);
+clearText.addEventListener('click', function() {
+    document.getElementById("url").value = "";
+}, false);
+
 
 /**
  * [submitURL description]
@@ -11,7 +19,7 @@ textbox.addEventListener('keyup', submitURL, false);
  */
 function submitURL(e) {
     if (e.keyCode === 13) {
-        document.getElementById("submit").click();
+        document.getElementById("btn").click();
     }
 }
 
@@ -26,9 +34,9 @@ function checkURL(e) {
     var urlValue = document.getElementById("url").value;
     var postUrl = document.URL;
     var loading = document.getElementsByClassName("loading")[0];
-
+    document.getElementsByClassName("results")[0].textContent = "";
     var param = "url=" + urlValue;
-    console.log(param);
+    //console.log(param);
 
     var httpRequest;
     if (window.XMLHttpRequest) {
@@ -66,3 +74,5 @@ function checkURL(e) {
     httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     httpRequest.send(param);
 }
+
+})();

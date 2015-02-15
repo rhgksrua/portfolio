@@ -1,0 +1,13 @@
+
+.top-divider {
+	border-top: 1px solid black;
+}
+
+.footer-container {
+	font-family: 'Open Sans', sans-serif;
+	margin: 70px 0 0 0;
+	padding: 10px 0 0 0;
+	font-size: 0.7em;
+	font-weight: 300;
+	color: rgb(161, 161, 161);
+}

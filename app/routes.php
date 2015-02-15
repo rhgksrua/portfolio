@@ -23,11 +23,19 @@ Route::get('/', function()
 Route::get('/urlchecker', 'UrlCheckerController@index');
 Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
 
-
-Route::get('/test', function() {
+Route::get('/urltest', 'UrlCheckerController@checkUrl');
+Route::any('/test', function() {
 
 	$url = 'http://www.google.com';
 	$url_headers = get_headers($url);
-	dd($url_headers);
+	return Response::json(['hello', 'world']);
 
+});
+
+Route::get('/jstest', function() {
+	return 'hi';
+});
+
+Route::get('/templatetest', function() {
+	return View::make('test');
 });

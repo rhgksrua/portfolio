@@ -1,9 +1,12 @@
 html, body {
 	font-family: 'Montserrat', sans-serif;
 	letter-spacing: 2px;
+	color: rgb(77, 77, 77);
 }
 
 /* Start of remove link syles */
+
+
 
 a {
 	color: #000;
@@ -48,6 +51,7 @@ h2 {
 /* End of vertical line divider */
 
 .container {
+
     margin: 100px 50px 50px 50px;
 }
 

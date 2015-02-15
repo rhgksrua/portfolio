@@ -16,9 +16,12 @@ class UrlCheckerController extends BaseController {
 		$url = Input::get("url");
 		if (empty($url)) return "false";
 
-		if (!strpos($url, 'http://')) {
+
+
+		if (strpos($url, 'http') === false) {
 			$url = 'http://' . $url;
 		}
+		//dd($url);
 
 		try {
 			$url_headers = get_headers($url);
