@@ -1,79 +1,108 @@
 ;(function() {
 
-var sub = document.getElementById("btn");
-var textbox = document.getElementById("url");
-var clearText = document.getElementById("close");
+    var sub = document.getElementById("btn");
+    var textbox = document.getElementById("url");
+    var clearText = document.getElementById("close");
 
 
-sub.addEventListener('click', checkURL, false);
-textbox.addEventListener('keyup', submitURL, false);
-clearText.addEventListener('click', function() {
-    document.getElementById("url").value = "";
-    document.getElementById("url").focus();
-}, false);
+    sub.addEventListener('click', checkURL, false);
+    textbox.addEventListener('keyup', submitURL, false);
+    clearText.addEventListener('click', function() {
+        document.getElementById("url").value = "";
+        document.getElementById("url").focus();
+    }, false);
 
 
-/**
- * [submitURL description]
- * @param  {[type]} e [description]
- * @return {[type]}   [description]
- */
-function submitURL(e) {
-    if (e.keyCode === 13) {
-        document.getElementById("btn").click();
+    /**
+     * [submitURL description]
+     * @param  {[type]} e [description]
+     * @return {[type]}   [description]
+     *
+     * Enter key submits url.
+     */
+    function submitURL(e)
+    {
+        if (e.keyCode === 13) {
+            document.getElementById("btn").click();
+        }
     }
-}
 
+    function validateUrl(url)
+    {
+        if (url === "") return false;
 
-/**
- * [checkURL description]
- * @param  {[type]} e [description]
- * @return {[type]}   [description]
- */
-function checkURL(e) {
+        var re = /[a-zA-Z]+\.[a-zA-Z0-9]+/;
+        
+        if (re.exec(url)) {
+            return true;
+        }
+        return false;
 
-    var urlValue = document.getElementById("url").value;
-    var postUrl = document.URL;
-    var loading = document.getElementsByClassName("loading")[0];
-    document.getElementsByClassName("results")[0].textContent = "";
-    var param = "url=" + urlValue;
-    //console.log(param);
-
-    var httpRequest;
-    if (window.XMLHttpRequest) {
-        httpRequest = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        httpRequest = new ActiveXObject("Microsoft.XMLTTP");
     }
 
     /**
-     * [onreadystatechange description]
-     * @return {[type]} [description]
+     * [checkURL description]
+     * @param  {[type]} e [description]
+     * @return {[type]}   [description]
      */
-    httpRequest.onreadystatechange = function() {
-        if (httpRequest.readyState === 4) {
+    function checkURL(e)
+    {
+
+        
+        var urlValue = document.getElementById("url").value;
+
+        if (!validateUrl(urlValue)) {
+            document.getElementsByClassName("results")[0].textContent = "Invalid Url";
             
-            if(httpRequest.status === 200) {
-                //console.log(httpRequest.responseText);
-                var results = document.getElementsByClassName("results")[0];
-                if (httpRequest.responseText == "true") {
-                    results.textContent = "URL Works";
-                } else {
-                    results.textContent = "URL Does Not Works";
-                }
-            } else {
-                console.log("error");
-            }
-            loading.className = "loading hide";
-        } else {
-            loading.className = "loading show";
+            return;
         }
 
-    };
 
-    httpRequest.open('POST', postUrl);
-    httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    httpRequest.send(param);
-}
+        var postUrl = document.URL;
+        var loading = document.getElementsByClassName("loading")[0];
+        document.getElementsByClassName("results")[0].textContent = "";
+        var param = "url=" + urlValue;
+        //console.log(param);
+
+        var httpRequest;
+        if (window.XMLHttpRequest) {
+            httpRequest = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            httpRequest = new ActiveXObject("Microsoft.XMLTTP");
+        }
+
+        /**
+         * [onreadystatechange description]
+         * @return {[type]} [description]
+         */
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === 4) {
+                
+                if(httpRequest.status === 200) {
+                    var result = JSON.parse(httpRequest.responseText);
+                    console.log(result);
+                    
+                    var resultElement = document.getElementsByClassName("results")[0];
+                    if (result["error"]) {
+
+                        resultElement.textContent = result["error"];
+                    } else if (result["works"]) {
+                        resultElement.textContent = "Url Works!";
+                    }
+                    
+                } else {
+                    console.log("error");
+                }
+                loading.className = "loading hide";
+            } else {
+                loading.className = "loading show";
+            }
+
+        };
+
+        httpRequest.open('POST', postUrl);
+        httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        httpRequest.send(param);
+    }
 
 })();

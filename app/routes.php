@@ -34,7 +34,7 @@ Route::any('/test', function() {
 });
 
 Route::get('/jstest', function() {
-	return filter_var('http://www.google.com', FILTER_VALIDATE_URL) ? "yup" : "not a url";
+	return filter_var('http://www.googlem', FILTER_VALIDATE_URL) ? "yup" : "not a url";
 
 });
 

@@ -24,33 +24,43 @@ class UrlCheckerController extends BaseController {
 
 		
 		$url = Input::get("url");
+
+
 		if (empty($url)) {
-			return "false";
-			//$jsonResponse["error"] = "Url is missing.";
-			//return $jsonResponse;
+			$jsonResponse["error"] = "Url is missing.";
+			return Response::json($jsonResponse);
 		}
 
-
-
-
+		// add http if not present.
 		if (strpos($url, 'http') === false) {
 			$url = 'http://' . $url;
 		}
-		//dd($url);
 
+		// Validate URL
+		if (!filter_var($url, FILTER_VALIDATE_URL)) {
+			$jsonResponse["error"] = "Invalid Url.";
+			return Response::json($jsonResponse);
+		}
+
+        // Check URL
 		try {
 			$url_headers = get_headers($url);
 		} catch (Exception $e) {
-			return "false";
+			$jsonResponse["error"] = "Header error.";
+			return Response::json($jsonResponse);
 		}
 
 		if (
 			strpos($url_headers[0], "20") ||
 			strpos($url_headers[0], "30")
 			) {
-			return "true";
+			$jsonResponse["works"] = true;
+			$jsonResponse["statusCode"] = $url_headers[0];
+			return Response::json($jsonResponse);
 		} else {
-			return "false";
+			$jsonResponse["error"] = "4XX or 5XX error";
+			$jsonResponse["statusCode"] = $url_headers[0];
+			return Response::json($jsonResponse);
 		}
 	}
 }
