@@ -1,0 +1,63 @@
+html, body {
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 2px;
+    color: rgb(77, 77, 77)
+}
+
+.container {
+    margin: 100px 50px 50px 50px;    
+}
+
+.tutorial-container {
+    margin: 40px 0 100px 0;
+}
+
+.tutorial-container div {
+    padding: 5px;
+}
+
+h1 {
+    font-size: 4em;
+    font-weight: 700;
+}
+
+h3 {
+    margin: 20px 0 10px 0;
+    font-size: 1.3em;
+    font-weight: 500;
+    border-bottom: 1px solid #DEDEDE;
+}
+
+.tutorial-source {
+    background-color: #DEDEDE;
+    font-size: 0.9em;
+    padding: 2px;
+}
+
+.tutorial-url {
+    text-decoration: underline;
+}
+
+.tutorial-date {
+    /*color: red;*/
+}
+
+.tutorial-posted-here {
+    /*color: blue;*/
+}
+
+.uses {
+    font-weight: 500;
+}
+
+.tutorial-uses {
+    /*border: 1px solid #DEDEDE;*/
+}
+
+.tutorial-uses li {
+    /*margin-left: 20px;*/
+}
+
+.multiples {
+    margin-left: 20px;
+}

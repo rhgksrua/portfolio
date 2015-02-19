@@ -11,3 +11,30 @@
 	font-weight: 300;
 	color: rgb(161, 161, 161);
 }
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+a:active {
+    color: #000;
+    text-decoration: none;
+}
+
+.home {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    letter-spacing: 0;
+}

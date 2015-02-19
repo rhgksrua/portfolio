@@ -42,7 +42,7 @@
 						<span>Check url status</span>
 					</li>
 					<li class="project">
-						<a href="">Tutorials</a>
+						<a href="/tutorials">Tutorials</a>
 						<span>Stuff stuff stuff tutorial stuff</span>
 					</li>
 					<li class="project">

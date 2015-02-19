@@ -13,6 +13,7 @@
 	@show
 </head>
 <body>
+	<div class="home"><a href="/">HOME</a></div>
 	<div class="container">
 	@section('content')
 		Main content

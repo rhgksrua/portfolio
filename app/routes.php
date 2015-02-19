@@ -11,6 +11,14 @@
 |
 */
 
+/**************************************************************************
+ *
+ * PROJECT URLS
+ * 
+ *
+ * ***********************************************************************/
+
+
 /**
  * Home
  */
@@ -23,17 +31,28 @@ Route::get('/', function()
  * URL Checker get/post
  * XMLrequest to /urlcheck to check status of a website.
  */
-
-Route::get('/templatetest', function() {
-	return View::make('test');
-});
-
-/*
- * Test urls
- */
-
 Route::get('/urlchecker', 'UrlCheckerController@index');
 Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
+
+/**
+ *
+ * Tutorial summary
+ * Links to tutorials with short summary.
+ * 
+ */
+Route::get('/tutorials', 'TutorialsController@index');
+Route::get('/tutorials/add', 'TutorialsController@showAddTutorial');
+Route::get('/tutorials/remove', 'TutorialsController@removeTutorial');
+
+/*************************************************************************
+ *
+ * TEST URLS
+ *
+ ************************************************************************/
+
+Route::get('/templatetest', function() {
+    return View::make('test');
+});
 
 Route::get('/urltest', 'UrlCheckerController@checkUrl');
 Route::any('/test', function() {
