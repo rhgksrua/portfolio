@@ -42,8 +42,8 @@
 						<span>Check url status</span>
 					</li>
 					<li class="project">
-						<a href="">Project Two</a>
-						<span>Description of project two</span>
+						<a href="">Tutorials</a>
+						<span>Stuff stuff stuff tutorial stuff</span>
 					</li>
 					<li class="project">
 						<a href="">Project Three</a>

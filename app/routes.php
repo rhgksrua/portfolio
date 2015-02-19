@@ -11,6 +11,9 @@
 |
 */
 
+/**
+ * Home
+ */
 Route::get('/', function()
 {
 	return View::make('home');
@@ -20,24 +23,27 @@ Route::get('/', function()
  * URL Checker get/post
  * XMLrequest to /urlcheck to check status of a website.
  */
+
+Route::get('/templatetest', function() {
+	return View::make('test');
+});
+
+/*
+ * Test urls
+ */
+
 Route::get('/urlchecker', 'UrlCheckerController@index');
 Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
 
 Route::get('/urltest', 'UrlCheckerController@checkUrl');
 Route::any('/test', function() {
 
-	// USE THIS to return more than true/false back to urlchecker
-	$url = 'http://www.google.com';
-	$url_headers = get_headers($url);
-	return Response::json(['hello', 'world']);
-
+    // USE THIS to return more than true/false back to urlchecker
+    $url = 'http://www.google.com';
+    $url_headers = get_headers($url);
+    return Response::json(['hello', 'world']);
 });
 
 Route::get('/jstest', function() {
-	return filter_var('http://www.googlem', FILTER_VALIDATE_URL) ? "yup" : "not a url";
-
-});
-
-Route::get('/templatetest', function() {
-	return View::make('test');
+    return filter_var('http://www.googlem', FILTER_VALIDATE_URL) ? "yup" : "not a url";
 });
