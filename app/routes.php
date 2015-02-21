@@ -41,7 +41,13 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
  * 
  */
 Route::get('/tutorials', 'TutorialsController@index');
+
+// Show add tutorial page
 Route::get('/tutorials/add', 'TutorialsController@showAddTutorial');
+// Add tutorial
+Route::post('/tutorials/add', 'TutorialsController@addTutorial');
+
+// Remove tutorial
 Route::get('/tutorials/remove', 'TutorialsController@removeTutorial');
 
 /*************************************************************************

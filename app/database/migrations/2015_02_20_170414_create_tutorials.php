@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateTutorials extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		//
+		Schema::create('tutorials', function($table)
+		{
+			$table->increments('id');
+			$table->string('title');
+			$table->text('link');
+			$table->date('tutorial_created_at');
+			$table->timestamps();
+			$table->integer('uses');
+			$table->boolean('demo');
+			$table->integer('difficulty');
+			$table->integer('prerequisites');
+			$table->text('summary');
+		});
+	}
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return void
+	 */
+	public function down()
+	{
+		//
+		Schema::drop('tutorials');
+	}
+
+}
