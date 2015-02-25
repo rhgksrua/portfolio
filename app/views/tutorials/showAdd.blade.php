@@ -9,34 +9,39 @@
     
     <div class="showadd-container">
         <h1>Add a Tutorial</h1>
+        <a href="/tutorials">Back to Tutorials</a>
 
         @if ($added && $success)
         
         <div class="tutorial-container">
             <div class="added">ADDED!</div>
             <div class="title-container">
-                <h3><a href="{{ $inputs["link"] }}">{{ $inputs["title"] }} <span class="tutorial-source">{{ $inputs["sitename"] }}</span></a></h3>
+                <h3><a href="http://{{ $inputs["link"] }}">{{ $inputs["title"] }}  FROM <span class="tutorial-source">{{ $inputs["sitename"] }}</span></a></h3>
             </div>
-            <div class="tutorial-url">{{ $inputs["link"] }}</div>
+            <div class="tutorial-url"><a href="http://{{ $inputs["link"] }}">{{ $inputs["link"] }}</a></div>
             <div class="tutorial-date">{{ isset($date) ? $date : '' }}</div>
-            <div class="tutorial-posted-here">Date of this post</div>
-
             <div class="tutorial-uses">
                 <h4 class="uses">Uses:</h4>
                 <ul>
-                    <li class="multiples">Javascript</li>
-                    <li class="multiples">Laravel 4.2</li>
-                    <li class="multiples">CSS</li>
+                    @foreach($usings as $using)
+                    <li class="multiples">{{ $using }}</li>
+                    @endforeach
                 </ul>
             </div>
-            <div class="demo-available">Live Demo: Yes/No</div>
-            <div class="tutorial-difficulty">Difficulty: Beginner/Intermediate/Advanced</div>
+            <div class="demo-available">Live Demo: {{ $inputs["demo"] == 0 ? "No" : "Yes" }}</div>
+            <div class="tutorial-difficulty">
+                Difficulty: 
+                @if ($inputs["difficulty"] == 0)
+                    <span>Easy</span>
+                @elseif ($inputs["difficulty"] == 1)
+                    <span>Intermediate</span>
+                @else
+                    <span>Advanced</span>
+                @endif
+            </div>
             <div class="tutorial-prerequisite">
                 <h5>Prerequisite</h5>
-                <ul>
-                    <li class="tutorial-requirements multiples">Basic JS</li>
-                    <li class="tutorial-requirements multiples">Basic HTML</li>
-                </ul>
+                <div class="multiples">{{ $inputs["prerequisites"] }}</div> 
             </div>
             
             <div class="tutorial-summary">
@@ -66,19 +71,23 @@
             {{ $errors->first('date') }}
         -->
             <br />
-            <input type="text" name="date_month" placeholder="Month (MM)" value="{{ Input::old('date_month') }}">
-            <input type="text" name="date_day" placeholder="Day (DD)" value="{{ Input::old('date_day') }}">
-            <input type="text" name="date_year" placeholder="Year (YYYY)" value="{{ Input::old('date_year') }}">
+            <input class="date" type="text" name="date_month" placeholder="Month (MM)" value="{{ Input::old('date_month') }}">
+            <input class="date" type="text" name="date_day" placeholder="Day (DD)" value="{{ Input::old('date_day') }}">
+            <input class="date" type="text" name="date_year" placeholder="Year (YYYY)" value="{{ Input::old('date_year') }}">
 
-            <br >
             <br />
             <input type="text" id="uses" name="uses" placeholder="Uses (separated by comma)" value="{{ Input::old('uses') }}">
             {{ $errors->first('uses') }}
             <br >
-            <input type="text" name="demo" placeholder="Demo" value="{{ Input::old('demo') }}">
+            <span>Demo: </span>
+            <input type="radio" name="demo" value="1">Yes
+            <input type="radio" name="demo" value="0">No
             {{ $errors->first('demo') }}
             <br >
-            <input type="text" name="difficulty" placeholder="Difficulty" value="{{ Input::old('difficulty') }}">
+            <span>Difficulty: </span>
+            <input type="radio" name="difficulty" value="0">Beginner
+            <input type="radio" name="difficulty" value="1">Intermediate
+            <input type="radio" name="difficulty" value="2">Advanced
             {{ $errors->first('difficulty') }}
             <br >
             <input type="text" name="prerequisites" placeholder="Prerequisites" value="{{ Input::old('prerequisites') }}">

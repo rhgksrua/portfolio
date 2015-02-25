@@ -60,12 +60,12 @@ class TutorialsController extends BaseController
         }
 
         // Convert date to MM-DD-YYYY
-        $date = date("m-d-Y", mktime(0, 0, 0, Input::get('date_month'), Input::get('date_day'), Input::get('date_year')));
-
+        $date = date("Y-m-d", mktime(0, 0, 0, Input::get('date_month'), Input::get('date_day'), Input::get('date_year')));
+       
 
         // parse uses
         $uses = array_map('trim', explode(',', Input::get('uses')));
-        //dd($uses);
+      
 
 
         $tutorial = $this->tutorial;
@@ -85,14 +85,13 @@ class TutorialsController extends BaseController
 
         // Save usings
         foreach($uses as $use) {
-            $this->tutorial->uses()->save(new Using(array('using' => $use)));
+            $this->tutorial->usings()->save(new Using(array('using' => $use)));
         }
-
-        
 
         return View::make('tutorials.showAdd')
             ->with('added', true)
             ->with('success', $success)
+            ->with('usings', $uses)
             ->with('inputs', Input::all());
         
     }

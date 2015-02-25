@@ -4,7 +4,7 @@ class Tutorial extends Eloquent
 {
     protected $table = 'tutorials';
 
-    public function uses()
+    public function usings()
     {
         return $this->hasMany('Using', 'tutorial_id');
     }

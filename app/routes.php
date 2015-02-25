@@ -58,10 +58,10 @@ Route::get('/tutorials/remove', 'TutorialsController@removeTutorial');
 
 Route::get('/elotest', function() {
 
-    $item = new Using(array('using' => 'something'));
-    $tutorial = Tutorial::find(1);
+    $tut = Tutorial::find(1)->usings;
+    dd($tut);
+    
 
-    $item = $tutorial->uses()->save($item);
     dd();
     
 });

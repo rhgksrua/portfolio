@@ -12,9 +12,9 @@
 
     <div class="tutorial-container">
         <div class="title-container">
-            <h3><a href="{{ $tutorial->link }}">{{ $tutorial->title }} from <span class="tutorial-source">{{ $tutorial->sitename }}</span></a></h3>
+            <h3><a href="http://{{ $tutorial->link }}">{{ $tutorial->title }} from <span class="tutorial-source">{{ $tutorial->site_name }}</span></a></h3>
         </div>
-        <div class="tutorial-url">{{ $tutorial->link }}</div>
+        <div class="tutorial-url"><a href="http://{{ $tutorial->link }}">{{ $tutorial->link }}</a></div>
         <div class="tutorial-date">{{ $tutorial->tutorial_created_at }}</div>
         <!--
         <div class="tutorial-posted-here">01 JAN 1900</div>
@@ -22,25 +22,24 @@
         <div class="tutorial-uses">
             <h4 class="uses">Uses:</h4>
             <ul>
-                <li class="multiples">Javascript</li>
-                <li class="multiples">Laravel 4.2</li>
-                <li class="multiples">CSS</li>
+                @foreach($tutorial->usings as $using)
+                <li class="multiples">{{ $using->using }}</li>
+                @endforeach
             </ul>
         </div>
         <div class="demo-available">Live Demo: Yes/No</div>
         <div class="tutorial-difficulty">Difficulty: Beginner/Intermediate/Advanced</div>
         <div class="tutorial-prerequisite">
             <h5>Prerequisite</h5>
-            <ul>
-                <li class="tutorial-requirements multiples">Basic JS</li>
-                <li class="tutorial-requirements multiples">Basic HTML</li>
-            </ul>
+            <div class="multiples">
+                {{ $tutorial->prerequisites }}
+            </div>
         </div>
         
         <div class="tutorial-summary">
             <h5>Summary</h5>
             <div class="multiples">
-                This tutorial show you how to do stuff
+                {{ $tutorial->summary }}
             </div>
         </div>
     </div>
