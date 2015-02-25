@@ -56,6 +56,17 @@ Route::get('/tutorials/remove', 'TutorialsController@removeTutorial');
  *
  ************************************************************************/
 
+Route::get('/elotest', function() {
+
+    $item = new Using(array('using' => 'something'));
+    $tutorial = Tutorial::find(1);
+
+    $item = $tutorial->uses()->save($item);
+    dd();
+    
+});
+
+
 Route::get('/templatetest', function() {
     return View::make('test');
 });

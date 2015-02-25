@@ -2,22 +2,24 @@
 
 @section('header')
     {{ HTML::style('/resources/css/tutorials/showadd.css') }}
-    {{ HTML::style('/resources/css/tutorials.css') }}
+    {{ HTML::style('/resources/css/tutorials/tutorials.css') }}
 @stop
 
 @section('content')
+    
     <div class="showadd-container">
-        <h2>Add a Tutorial</h2>
+        <h1>Add a Tutorial</h1>
 
         @if ($added && $success)
-        <div> ADDED! </div>
+        
         <div class="tutorial-container">
+            <div class="added">ADDED!</div>
             <div class="title-container">
-                <h3><a href="{{ $inputs["link"] }}">{{ $inputs["title"] }}<span class="tutorial-source">Website name</span></a></h3>
+                <h3><a href="{{ $inputs["link"] }}">{{ $inputs["title"] }} <span class="tutorial-source">{{ $inputs["sitename"] }}</span></a></h3>
             </div>
             <div class="tutorial-url">{{ $inputs["link"] }}</div>
-            <div class="tutorial-date">Posted: 01 JAN 1899</div>
-            <div class="tutorial-posted-here">01 JAN 1900</div>
+            <div class="tutorial-date">{{ isset($date) ? $date : '' }}</div>
+            <div class="tutorial-posted-here">Date of this post</div>
 
             <div class="tutorial-uses">
                 <h4 class="uses">Uses:</h4>
@@ -40,7 +42,7 @@
             <div class="tutorial-summary">
                 <h5>Summary</h5>
                 <div class="multiples">
-                    This tutorial show you how to do stuff
+                    {{ $inputs["summary"] }}
                 </div>
             </div>
         </div> 
@@ -50,22 +52,41 @@
 
 
         <form action='/tutorials/add' method='post'>
-            <input type="text" name="title" placeholder="Title">
+            <input type="text" name="title" placeholder="Title" value="{{ Input::old('title') }}">
+            {{ $errors->first('title') }}
             <br >
-            <input type="text" name="link" placeholder="URL">
+            <input type="text" name="link" placeholder="URL" value="{{ Input::old('link') }}">
+            {{ $errors->first('link') }}
             <br >
-            <input type="date" name="date" placeholder="Date of Tutorial">
+            <input type="text" name="sitename" placeholder="Site Name" value="{{ Input::old('sitename') }}">
+            {{ $errors->first('sitename') }}
+             
+            <!--
+            <input type="date" name="date" placeholder="Date of Tutorial" value="{{ Input::old('date') }}">
+            {{ $errors->first('date') }}
+        -->
+            <br />
+            <input type="text" name="date_month" placeholder="Month (MM)" value="{{ Input::old('date_month') }}">
+            <input type="text" name="date_day" placeholder="Day (DD)" value="{{ Input::old('date_day') }}">
+            <input type="text" name="date_year" placeholder="Year (YYYY)" value="{{ Input::old('date_year') }}">
+
             <br >
-            <input type="text" name="uses" placeholder="Uses">
+            <br />
+            <input type="text" id="uses" name="uses" placeholder="Uses (separated by comma)" value="{{ Input::old('uses') }}">
+            {{ $errors->first('uses') }}
             <br >
-            <input type="text" name="demo" placeholder="Demo">
+            <input type="text" name="demo" placeholder="Demo" value="{{ Input::old('demo') }}">
+            {{ $errors->first('demo') }}
             <br >
-            <input type="text" name="difficulty" placeholder="Difficulty">
+            <input type="text" name="difficulty" placeholder="Difficulty" value="{{ Input::old('difficulty') }}">
+            {{ $errors->first('difficulty') }}
             <br >
-            <input type="text" name="prerequisites" placeholder="Prerequisites">
+            <input type="text" name="prerequisites" placeholder="Prerequisites" value="{{ Input::old('prerequisites') }}">
+            {{ $errors->first('prerequisites') }}
             <br >
-            <input type="text" name="summary" placeholder="summary">
-            <br >
+            <textarea name="summary" placeholder="Summary">{{ Input::old("summary") }}</textarea>
+            {{ $errors->first('summary') }}
+            <br>
             <input type="submit">
 
 

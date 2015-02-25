@@ -1,23 +1,24 @@
 @extends('master')
 
 @section('header')
-    {{ HTML::style('/resources/css/tutorials.css') }}
+    {{ HTML::style('/resources/css/tutorials/tutorials.css') }}
 @stop
 
 @section('content')
 
     <h1>Tutorials</h1>
 
-    @for ($i = 0; $i < 5; $i++)
+    @foreach ($tutorials as $tutorial)
 
     <div class="tutorial-container">
         <div class="title-container">
-            <h3><a href="">How to do stuff from <span class="tutorial-source">Website name</span></a></h3>
+            <h3><a href="{{ $tutorial->link }}">{{ $tutorial->title }} from <span class="tutorial-source">{{ $tutorial->sitename }}</span></a></h3>
         </div>
-        <div class="tutorial-url">www.tutorial.com</div>
-        <div class="tutorial-date">Posted: 01 JAN 1899</div>
+        <div class="tutorial-url">{{ $tutorial->link }}</div>
+        <div class="tutorial-date">{{ $tutorial->tutorial_created_at }}</div>
+        <!--
         <div class="tutorial-posted-here">01 JAN 1900</div>
-
+        -->
         <div class="tutorial-uses">
             <h4 class="uses">Uses:</h4>
             <ul>
@@ -44,6 +45,6 @@
         </div>
     </div>
 
-    @endfor
+    @endforeach
 
 @stop

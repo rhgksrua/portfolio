@@ -17,6 +17,7 @@ class CreateTutorials extends Migration {
 		{
 			$table->increments('id');
 			$table->string('title');
+			$table->string('site_name');
 			$table->text('link');
 			$table->date('tutorial_created_at');
 			$table->timestamps();

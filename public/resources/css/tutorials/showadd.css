@@ -3,3 +3,43 @@ html, body {
     letter-spacing: 2px;
     color: rgb(77, 77, 77)
 }
+
+.added {
+    margin: 10px 0 0 0;
+    background-color: #F7C0C8;
+    display: inline;
+
+}
+
+form input {
+    width: 400px;
+    padding: 4px 4px 4px 4px;
+    margin: 10px 0 10px 0;
+}
+
+form input[name*=date] {
+    width: 121px;
+}
+
+form input[type=text] {
+    font-family: 'Montserrat', sans-serif;
+    
+}
+
+form textarea {
+    font-family: 'Montserrat', sans-serif;
+    width: 400px;
+    height: 150px;
+    padding: 4px 4px 4px 4px;
+    margin: 10px 0 10px 0;
+}
+
+
+form input[type=submit] {
+    width: 80px;
+}
+
+.uses {
+    border: 1px solid black;
+    display: inline-block;
+}
