@@ -40,6 +40,8 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
  * Links to tutorials with short summary.
  * 
  */
+Route::when('tutorials/*', 'auth');
+
 Route::get('/tutorials', 'TutorialsController@index');
 
 // Show add tutorial page
@@ -49,6 +51,17 @@ Route::post('/tutorials/add', 'TutorialsController@addTutorial');
 
 // Remove tutorial
 Route::get('/tutorials/remove', 'TutorialsController@removeTutorial');
+
+// Show login screen
+Route::get('/login', 'TutorialsController@showLogin');
+
+// Do login
+Route::post('/tutorials', 'TutorialsController@doLogin');
+
+Route::get('/tutorials/remove/{id}', 'TutorialsController@removeTutorial');
+
+
+Route::get('/logout', 'TutorialsController@doLogout');
 
 /*************************************************************************
  *

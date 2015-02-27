@@ -13,7 +13,12 @@
 	@show
 </head>
 <body>
-	<div class="home"><a href="/">HOME</a></div>
+	<div class="home">
+		<a href="/">HOME</a>
+		@if ( Auth::check())
+		<a href="/logout">LOGOUT</a>
+		@endif
+	</div>
 	<div class="container">
 	@section('content')
 		Main content

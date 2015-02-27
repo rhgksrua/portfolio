@@ -4,11 +4,13 @@ class TutorialsController extends BaseController
 {
     protected $tutorial;
     protected $using;
+    protected $user;
 
-    public function __construct(Using $using, Tutorial $tutorial)
+    public function __construct(Using $using, Tutorial $tutorial, User $user)
     {
         $this->tutorial = $tutorial;
         $this->using = $using;
+        $this->user = $user;
     }
 
     public function index()
@@ -16,6 +18,7 @@ class TutorialsController extends BaseController
         $tutorials = $this->tutorial->all();
 
         return View::make('tutorials.index')
+            ->with('loggedIn', Auth::check() ? true : false)
             ->with('tutorials', $tutorials);
     }
 
@@ -96,8 +99,43 @@ class TutorialsController extends BaseController
         
     }
 
-    public function removeTutorial()
+    public function removeTutorial($id)
     {
-        return "Remove tutorial page";
+        return "Remove id: $id";
+    }
+
+
+    public function showLogin()
+    {
+        return View::make('tutorials.showLogin');
+    }
+
+    public function doLogin()
+    {
+        $cred = array(
+            'username' => Input::get('username'),
+            'password' => Input::get('password')
+        );
+        if (Auth::attempt($cred))
+        {
+            return Redirect::intended('/');
+        }
+
+        return "Failed Log In";
+
+        $hashedPassword = User::where('username', '=', Input::get('username'))->first()->password;
+        if (Hash::check(Input::get('password'), $hashedPassword))
+        {
+            return "PW correct";
+        }
+        return "Password Incorect";
+
+        return "Do login stuff here";
+    }
+
+    public function doLogout()
+    {
+        Auth::logout();
+        return Redirect::to('/');
     }
 }

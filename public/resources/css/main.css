@@ -12,6 +12,22 @@
 	color: rgb(161, 161, 161);
 }
 
+h1 {
+    font-size: 4em;
+    font-weight: 700;
+}
+
+h3 {
+    margin: 20px 0 10px 0;
+    font-size: 1.3em;
+    font-weight: 500;
+    border-bottom: 1px solid #DEDEDE;
+}
+
+.container {
+    margin: 100px 50px 50px 50px;    
+}
+
 a {
     color: #000;
     text-decoration: none;

@@ -7,7 +7,6 @@
 @section('content')
 
 	
-	<div class="home"><a href="/">HOME</a></div>
 	<h1>URL Checker<span><img class="loading hide" src="/resources/img/spin.gif" alt="loading..."></span></h1>
 
 

@@ -7,7 +7,9 @@
 @section('content')
 
     <h1>Tutorials</h1>
-
+    @if ($loggedIn)
+    <div>LOGGED IN!!!</div>
+    @endif
     @foreach ($tutorials as $tutorial)
 
     <div class="tutorial-container">
@@ -42,6 +44,11 @@
                 {{ $tutorial->summary }}
             </div>
         </div>
+        @if ($loggedIn)
+        <div class="delete">
+            <a href="/tutorials/remove/{{ $tutorial->id }}">REMOVE</a>
+        </div>
+        @endif
     </div>
 
     @endforeach
