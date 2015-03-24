@@ -10,6 +10,9 @@
     @if ($loggedIn)
     <div>LOGGED IN!!!</div>
     @endif
+    @if (Session::get('message'))
+    <div class="flash">{{ Session::get('message') }}</div>
+    @endif
     @foreach ($tutorials as $tutorial)
 
     <div class="tutorial-container">

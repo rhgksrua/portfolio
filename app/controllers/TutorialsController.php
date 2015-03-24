@@ -101,7 +101,15 @@ class TutorialsController extends BaseController
 
     public function removeTutorial($id)
     {
+
+
+        $tutorial = Tutorial::find($id);
+        $tutorial->delete();
+        return Redirect::to('/tutorials')->with('message', "Removed Tutorial ID: $id");
+
         return "Remove id: $id";
+
+        return View::make('tutorials.removeTutorial');
     }
 
 

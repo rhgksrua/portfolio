@@ -49,8 +49,6 @@ Route::get('/tutorials/add', 'TutorialsController@showAddTutorial');
 // Add tutorial
 Route::post('/tutorials/add', 'TutorialsController@addTutorial');
 
-// Remove tutorial
-Route::get('/tutorials/remove', 'TutorialsController@removeTutorial');
 
 // Show login screen
 Route::get('/login', 'TutorialsController@showLogin');
@@ -58,10 +56,23 @@ Route::get('/login', 'TutorialsController@showLogin');
 // Do login
 Route::post('/tutorials', 'TutorialsController@doLogin');
 
+// Remove tutorial based on id
 Route::get('/tutorials/remove/{id}', 'TutorialsController@removeTutorial');
 
 
 Route::get('/logout', 'TutorialsController@doLogout');
+
+
+/*************************************************************************
+ *
+ * 404
+ *
+ * **********************************************************************/
+
+App::missing(function($exception)
+{
+    return Response::view('errors.missing', array(), 404);
+});
 
 /*************************************************************************
  *
