@@ -33,6 +33,8 @@ class TutorialsController extends BaseController
 
     public function addTutorial()
     {
+
+        //dd(Input::get('link'));
         $added = false;
         $success = false;
 
@@ -62,8 +64,13 @@ class TutorialsController extends BaseController
                 ->withInput();
         }
 
+        if (Input::get('date_month') && Input::get('date_day') && Input::get('date_year')) {
+            $date = date("Y-m-d", mktime(0, 0, 0, Input::get('date_month'), Input::get('date_day'), Input::get('date_year')));
+        } else {
+            $date = null;
+        }
+
         // Convert date to MM-DD-YYYY
-        $date = date("Y-m-d", mktime(0, 0, 0, Input::get('date_month'), Input::get('date_day'), Input::get('date_year')));
        
 
         // parse uses

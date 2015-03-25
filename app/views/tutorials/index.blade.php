@@ -17,9 +17,9 @@
 
     <div class="tutorial-container">
         <div class="title-container">
-            <h3><a href="http://{{ $tutorial->link }}">{{ $tutorial->title }} from <span class="tutorial-source">{{ $tutorial->site_name }}</span></a></h3>
+            <h3><a href="{{ $tutorial->link }}">{{ $tutorial->title }} from <span class="tutorial-source">{{ $tutorial->site_name }}</span></a></h3>
         </div>
-        <div class="tutorial-url"><a href="http://{{ $tutorial->link }}">{{ $tutorial->link }}</a></div>
+        <div class="tutorial-url"><a href="{{ $tutorial->link }}">{{ $tutorial->link }}</a></div>
         <div class="tutorial-date">{{ $tutorial->tutorial_created_at }}</div>
         <!--
         <div class="tutorial-posted-here">01 JAN 1900</div>
@@ -32,15 +32,22 @@
                 @endforeach
             </ul>
         </div>
-        <div class="demo-available">Live Demo: Yes/No</div>
-        <div class="tutorial-difficulty">Difficulty: Beginner/Intermediate/Advanced</div>
-        <div class="tutorial-prerequisite">
-            <h5>Prerequisite</h5>
-            <div class="multiples">
-                {{ $tutorial->prerequisites }}
-            </div>
+        <div class="demo-available">Live Demo: {{ $tutorial["demo"] == 0 ? "No" : "Yes" }}</div>
+        <div class="tutorial-difficulty">
+            Difficulty: 
+            @if ($tutorial["difficulty"] == 0)
+                <span>Easy</span>
+            @elseif ($tutorial["difficulty"] == 1)
+                <span>Intermediate</span>
+            @else
+                <span>Advanced</span>
+            @endif
         </div>
-        
+        <div class="tutorial-prerequisite">
+            <h5>Prerequisite:</h5>
+            <div class="multiples">{{ $tutorial["prerequisites"] }}</div> 
+        </div>
+    
         <div class="tutorial-summary">
             <h5>Summary</h5>
             <div class="multiples">
