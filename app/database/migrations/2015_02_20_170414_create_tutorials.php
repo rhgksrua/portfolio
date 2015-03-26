@@ -23,8 +23,8 @@ class CreateTutorials extends Migration {
 			$table->timestamps();
 			$table->integer('uses');
 			$table->boolean('demo');
-			$table->integer('difficulty');
-			$table->integer('prerequisites');
+			$table->text('difficulty');
+			$table->text('prerequisites');
 			$table->text('summary');
 		});
 	}
