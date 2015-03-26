@@ -40,15 +40,27 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
  * Links to tutorials with short summary.
  * 
  */
-Route::when('tutorials/*', 'auth');
 
 Route::get('/tutorials', 'TutorialsController@index');
 
-// Show add tutorial page
-Route::get('/tutorials/add', 'TutorialsController@showAddTutorial');
-// Add tutorial
-Route::post('/tutorials/add', 'TutorialsController@addTutorial');
+//Route::when('tutorials/*', 'auth');
+/*****************************************************************************/
+// REQUIRE LOGIN
+/*****************************************************************************/
 
+Route::group(array('before' => 'auth'), function()
+{
+
+    // Show add tutorial page
+    Route::get('/tutorials/add', 'TutorialsController@showAddTutorial');
+    // Add tutorial
+    Route::post('/tutorials/add', 'TutorialsController@addTutorial');
+
+});
+/******************************************************************************/
+
+// Search Tutorial
+Route::get('/tutorials/search', 'TutorialsController@searchTutorial');
 
 // Show login screen
 Route::get('/login', 'TutorialsController@showLogin');

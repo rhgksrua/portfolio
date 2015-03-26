@@ -119,6 +119,23 @@ class TutorialsController extends BaseController
         return View::make('tutorials.removeTutorial');
     }
 
+    public function searchTutorial()
+    {
+        $searchQueries = array();
+        $rawQuery = Input::get('search');
+        $rawQueriesArray = array_values(array_filter(explode(" ", $rawQuery), 'strlen'));
+        $results = Tutorial::where('title', 'LIKE', "%{$rawQueriesArray[0]}%")
+            ->orWhere('summary', 'LIKE', "%{$rawQueriesArray[0]}%")
+            ->get();
+        //dd($results);
+        foreach ($results as $result) {
+            echo $result->title;
+        }
+        exit;
+
+        return "Return search results";
+    }
+
 
     public function showLogin()
     {

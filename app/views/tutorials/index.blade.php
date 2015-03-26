@@ -7,6 +7,11 @@
 @section('content')
 
     <h1>Tutorials</h1>
+    <form action="/tutorials/search" method="get">
+        <input type="text" name="search" class="search">
+        <input type="submit">
+
+    </form>
     @if ($loggedIn)
     <div>LOGGED IN!!!</div>
     @endif
