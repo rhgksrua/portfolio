@@ -19,7 +19,7 @@ class CreateTutorials extends Migration {
 			$table->string('title');
 			$table->string('site_name');
 			$table->text('link');
-			$table->date('tutorial_created_at');
+			$table->date('tutorial_created_at')->nullable();
 			$table->timestamps();
 			$table->integer('uses');
 			$table->boolean('demo');

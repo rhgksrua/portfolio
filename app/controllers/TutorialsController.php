@@ -127,10 +127,22 @@ class TutorialsController extends BaseController
         $results = Tutorial::where('title', 'LIKE', "%{$rawQueriesArray[0]}%")
             ->orWhere('summary', 'LIKE', "%{$rawQueriesArray[0]}%")
             ->get();
-        //dd($results);
-        foreach ($results as $result) {
-            echo $result->title;
+        $query = DB::table('tutorials');
+        foreach($rawQueriesArray as $term)
+        {
+            $query->where('title', 'LIKE', '%' . $term . '%')
+                  ->orWhere('summary', 'LIKE', '%' . $term . '%')
+                  ->orWhere('link', 'LIKE', '%' . $term . '%')
+                  ->orWhere('site_name', 'LIKE', '%' . $term . '%')
+                  ->orWhere('uses', 'LIKE', '%' . $term . '%')
+                  ->orWhere('prerequisites', 'LIKE', '%' . $term . '%');
         }
+        $re = $query->get();
+        dd($re);
+        foreach($query as $q) {
+            var_dump($q->title);
+        }
+
         exit;
 
         return "Return search results";
