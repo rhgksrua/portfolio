@@ -22,6 +22,16 @@ class TutorialsController extends BaseController
             ->with('tutorials', $tutorials);
     }
 
+    public function showSinglePost($id)
+    {
+        $tutorial = Tutorial::find($id);
+        if (!$tutorial) {
+            return "Tutorial does not exist.";
+        }
+        return View::make('tutorials.singlePost')->with('tutorial', $tutorial);
+        return "tutorial $id";
+    }
+
     public function showAddTutorial()
     {
         //return "Add tutorial page";
@@ -138,14 +148,9 @@ class TutorialsController extends BaseController
                   ->orWhere('prerequisites', 'LIKE', '%' . $term . '%');
         }
         $re = $query->get();
-        dd($re);
-        foreach($query as $q) {
-            var_dump($q->title);
-        }
 
-        exit;
 
-        return "Return search results";
+        return View::make('tutorials.searchResults')->with('tutorials', $re);
     }
 
 

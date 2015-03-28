@@ -43,6 +43,10 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
 
 Route::get('/tutorials', 'TutorialsController@index');
 
+// Single post per page
+Route::get('/tutorials/{id}', 'TutorialsController@showSinglePost')
+    ->where('id', '[0-9]+');
+
 //Route::when('tutorials/*', 'auth');
 /*****************************************************************************/
 // REQUIRE LOGIN

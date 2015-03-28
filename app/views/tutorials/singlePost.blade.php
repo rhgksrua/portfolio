@@ -12,17 +12,12 @@
         <input type="submit">
 
     </form>
-    @if ($loggedIn)
-    <div>LOGGED IN!!!</div>
-    @endif
     @if (Session::get('message'))
     <div class="flash">{{ Session::get('message') }}</div>
     @endif
-    @foreach ($tutorials as $tutorial)
-
     <div class="tutorial-container">
         <div class="title-container">
-            <h3><a href="/tutorials/{{ $tutorial->id }}">{{ $tutorial->title }} from <span class="tutorial-source">{{ $tutorial->site_name }}</span></a></h3>
+            <h3><a href="{{ $tutorial->link }}">{{ $tutorial->title }} from <span class="tutorial-source">{{ $tutorial->site_name }}</span></a></h3>
         </div>
         <div class="tutorial-url"><a href="{{ $tutorial->link }}">{{ $tutorial->link }}</a></div>
         <div class="tutorial-date">{{ $tutorial->tutorial_created_at }}</div>
@@ -59,13 +54,7 @@
                 {{ $tutorial->summary }}
             </div>
         </div>
-        @if ($loggedIn)
-        <div class="delete">
-            <a href="/tutorials/remove/{{ $tutorial->id }}">REMOVE</a>
-        </div>
-        @endif
     </div>
-
-    @endforeach
+      
 
 @stop
