@@ -1,0 +1,20 @@
+{
+  "name": "portfolio",
+  "version": "0.0.1",
+  "homepage": "https://github.com/rhgksrua/portfolio",
+  "authors": [
+    "rhgksrua <rhgksrua@gmail.com>"
+  ],
+  "description": "Tutorials page in angular js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}
