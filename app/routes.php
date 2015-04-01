@@ -96,6 +96,10 @@ App::missing(function($exception)
  *
  ************************************************************************/
 
+Route::get('/bower', function() {
+    return View::make('test');
+});
+
 Route::get('/elotest', function() {
 
     $tut = Tutorial::find(1)->usings;

@@ -10,6 +10,13 @@
 	{{ HTML::style('/resources/css/urlchecker.css') }}
 
 	<title>rhgksrua</title>
+
+
+	<!-- Add additional resources here -->
+	@show
+	@section('resources')
+	    Additional Content
+
 	@show
 </head>
 <body>
