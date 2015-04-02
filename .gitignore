@@ -9,3 +9,11 @@ Thumbs.db
 /app/database/seeds/UserTableSeeder.php
 /public/resources/bower
 .bowerrc
+logs/*
+!.gitkeep
+node_modules/
+bower_components/
+tmp
+.DS_Store
+.idea
+karma.conf.js
