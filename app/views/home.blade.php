@@ -46,8 +46,8 @@
 						<span>Stuff stuff stuff tutorial stuff</span>
 					</li>
 					<li class="project">
-						<a href="">Project Three</a>
-						<span>Description of project three</span>
+						<a href="/tutorials/angularjs">Tutorials with AngularJS</a>
+						<span>Tutorial based on AngularJS</span>
 					</li>
 				</ul>
 			</div>

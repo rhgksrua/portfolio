@@ -78,6 +78,25 @@ Route::get('/tutorials/remove/{id}', 'TutorialsController@removeTutorial');
 
 Route::get('/logout', 'TutorialsController@doLogout');
 
+/**********************************************************************
+ *
+ * Tutorials using AngularJS
+ *
+ * *********************************************************************/
+
+Route::get('/tutorials/angularjs', 'TutorialsAngularController@index');
+
+
+/************************************************************************
+ *
+ * Tutorials API
+ *
+ * ********************************************************************/
+
+Route::group(array('prefix' => 'tutorials/api/v1'), function()
+{
+    Route::resource('tutorials/all', 'TutorialAPIController');
+});
 
 /*************************************************************************
  *
@@ -89,6 +108,8 @@ App::missing(function($exception)
 {
     return Response::view('errors.missing', array(), 404);
 });
+
+
 
 /*************************************************************************
  *
@@ -127,3 +148,8 @@ Route::any('/test', function() {
 Route::get('/jstest', function() {
     return filter_var('http://www.googlem', FILTER_VALIDATE_URL) ? "yup" : "not a url";
 });
+
+Route::get('/authtest', array('before' => 'auth.basic', function()
+{
+    return "works";
+}));
