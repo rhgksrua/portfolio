@@ -3,6 +3,8 @@
 @section('resources')
     <script type="text/javascript" src="/resources/bower/jquery/dist/jquery.js"></script>
     <script src="/resources/bower/angular/angular.js"></script>
+    <script src="/resources/bower/angular-resource/angular-resource.js"></script>
+    <script src="/resources/js/tutorialsangular/services.js"></script>
     <script src="/resources/js/tutorialsangular/app.js"></script>
 
 @stop

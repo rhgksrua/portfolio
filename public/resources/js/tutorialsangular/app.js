@@ -1,7 +1,7 @@
-var customInterpolate = angular.module('tutorialsApp', []);
-    customInterpolate.config(function($interpolateProvider) {
-        $interpolateProvider.startSymbol('[[');
-        $interpolateProvider.endSymbol(']]');
-    });
-    customInterpolate.controller('TutorialsController', function() {
-});
+'use strict'
+
+var tutorialsApp = angular.module('tutorialsApp', [
+    'tutorialsServices',
+    'tutorialsController'
+
+]);
