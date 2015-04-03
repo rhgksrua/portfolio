@@ -3,19 +3,7 @@
 @section('resources')
     <script type="text/javascript" src="/resources/bower/jquery/dist/jquery.js"></script>
     <script src="/resources/bower/angular/angular.js"></script>
-    <script>
-
-        var customInterpolate = angular.module('tutorialsApp', []);
-        customInterpolate.config(function($interpolateProvider) {
-            $interpolateProvider.startSymbol('[[');
-            $interpolateProvider.endSymbol(']]');
-        });
-
-        customInterpolate.controller('TutorialsController', function() {
-
-
-        });
-    </script>
+    <script src="/resources/js/tutorialsangular/app.js"></script>
 
 @stop
 
