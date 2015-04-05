@@ -15,7 +15,6 @@
 	<!-- Add additional resources here -->
 	@show
 	@section('resources')
-	    Additional Content
 
 	@show
 </head>

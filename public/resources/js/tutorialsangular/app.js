@@ -2,6 +2,16 @@
 
 var tutorialsApp = angular.module('tutorialsApp', [
     'tutorialsServices',
-    'tutorialsController'
-
+    'customInterpolateController',
+    'demoFilters',
+    'diffFilters'
+    
 ]);
+
+tutorialsApp.controller('tutorialsController', ['$scope', 'Tutorials', function($scope, Tutorials) {
+    $scope.name = "bob";
+    $scope.data = Tutorials.get({id: 123}, function(data) {
+            
+
+    });
+}]);

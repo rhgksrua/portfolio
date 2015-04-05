@@ -10,7 +10,8 @@ class TutorialAPIController extends \BaseController {
 	public function index()
 	{
 		//
-		$tutorials = Tutorial::all();
+		$tutorials = Tutorial::with('usings')->get();
+
 
 		return Response::json(array(
 			'error' => false,
