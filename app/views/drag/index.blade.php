@@ -33,16 +33,9 @@
 
 @section('content')
     <div class="drag-container">
-
         <canvas id="drawing" height="500px" width="800px"></canvas>
-
-
-
     </div>
-
 @stop
-
 @section('footer')
     <script src="/resources/js/drag/drag.js"></script>
-
 @stop
