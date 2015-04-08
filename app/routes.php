@@ -86,6 +86,13 @@ Route::get('/logout', 'TutorialsController@doLogout');
 
 Route::get('/tutorials/angularjs', 'TutorialsAngularController@index');
 
+/************************************************************************
+ *
+ * Tutorials API
+ *
+ * ********************************************************************/
+
+Route::get('/drag', 'DragController@index');
 
 /************************************************************************
  *
