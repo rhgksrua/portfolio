@@ -5,9 +5,12 @@
 	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 	{{ HTML::style('/resources/css/reset.css') }}
+	@section('maincss')
 	{{ HTML::style('/resources/css/main.css') }}
+	@stop
 	@section('header')
 	{{ HTML::style('/resources/css/urlchecker.css') }}
+
 
 	<title>rhgksrua</title>
 
@@ -19,6 +22,7 @@
 	@show
 </head>
 <body>
+	@section('login')
 	<div class="home">
 		<a href="/">HOME</a>
 		@if ( Auth::check())
@@ -26,6 +30,8 @@
 		@endif
 	</div>
 	<div class="container">
+	@stop
+
 	@section('content')
 		Main content
 
