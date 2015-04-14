@@ -9,9 +9,7 @@
     <script src="/resources/bower/jquery/dist/jquery.js"></script>
     <style>
         html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            box-sizing: border-box;
         }
         .drag-container {
             float: left;

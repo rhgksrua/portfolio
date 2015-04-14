@@ -8,7 +8,6 @@ composer.lock
 Thumbs.db
 /app/database/seeds/UserTableSeeder.php
 /public/resources/bower
-.bowerrc
 logs/*
 !.gitkeep
 node_modules/
