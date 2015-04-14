@@ -21,13 +21,10 @@
 						<a href="">blog</a>
 					</li>
 					<li class="resource">
-						<a href="">Twitter</a>
+						<a href="http://codepen.io/rhgksrua">Codepen</a>
 					</li>
 					<li class="resource">
-						<a href="">Facebook</a>
-					</li>
-					<li class="resource">
-						<a href="">Github</a>
+						<a href="https://github.com/rhgksrua">Github</a>
 					</li>
 				</ul>
 			</div>
