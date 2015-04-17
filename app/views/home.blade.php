@@ -46,6 +46,10 @@
 						<a href="/tutorials/angularjs">Tutorials with AngularJS</a>
 						<span>Tutorial based on AngularJS</span>
 					</li>
+					<li class="project">
+						<a href="/blackjack">Blackjack</a>
+						<span>Simple blackjack card game with JQuery</span>
+					</li>
 				</ul>
 			</div>
 		</div>

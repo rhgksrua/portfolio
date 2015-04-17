@@ -36,6 +36,14 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
 
 /**
  *
+ * BlackJack Card Game!!!!!!~~~!!!~~~!!!
+ * 
+ */
+Route::get('/blackjack', 'BlackjackController@index');
+
+
+/**
+ *
  * Tutorial summary
  * Links to tutorials with short summary.
  * 

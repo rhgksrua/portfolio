@@ -1,6 +1,6 @@
 <?php
 
-class DragController extends BaseController {
+class BlackjackController extends BaseController {
 
     public function index() 
     {
