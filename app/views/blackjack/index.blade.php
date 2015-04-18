@@ -8,30 +8,27 @@
     <h1>BlackJack</h1>
 
     <div class="blackjack-container">
-        <button class="deal">Deal</button>
 
         <div class="dealer">
             <h2>Dealer</h2>
-            <div id="dealer-cards">
-            </div>
-            <div id="dealer-total">
-            </div>
-            <p id="dealer-status">ok</p>
+            <div id="dealer-cards"></div>
+            <div id="dealer-total"></div>
+            <div id="dealer-status"></div>
         </div>
         <div class="player">
             <h2>Player</h2>
-            <div id="player-cards">
-
+            <div id="player0-cards"></div>
+            <div id="player0-total"></div>
+            <div id="player0-status"></div>
+            <div id="player0-actions">
+                <label for="bet">Bet</label>
+                <input type="text" id="bet" />
+                <button>Hit</button>
+                <button>Stand</button>
             </div>
-            <div id="player-total">
-            </div>
-            <p id="player-status">iok</p>
         </div>
-        <button id="hit">HIT</button>
-        <button id="stand">STAND</button>
-        
-
-
+        <button id="deal">Deal</button>
+        <p id="errors"></p>
     </div>
 
     
