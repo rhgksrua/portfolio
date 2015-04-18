@@ -23,8 +23,8 @@
             <div id="player0-actions">
                 <label for="bet">Bet</label>
                 <input type="text" id="bet" />
-                <button>Hit</button>
-                <button>Stand</button>
+                <button id="hit">Hit</button>
+                <button id="stand">Stand</button>
             </div>
         </div>
         <button id="deal">Deal</button>

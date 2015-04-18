@@ -12,7 +12,11 @@
 
 #player0-actions {
     display: block;
-    padding-top: 50px;
+}
+
+.player p {
+    display: inline-block;
+    padding: 5px;
 }
 
 button {
