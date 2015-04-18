@@ -7,6 +7,7 @@ var Game = function (players, dealer, playingCards) {
     // contains all elements of a game of blackjack
     this.allPlayers = players.concat(dealer);
     this.state = 0;
+    this.playerCursor = 0;
 
     // Game states 
     // 0: before starting
@@ -29,7 +30,19 @@ Game.prototype = {
         for (i = 0, len = this.allPlayers.length; i < len; i++) {
             this.allPlayers[i].cards = [];
             this.allPlayers[i].element.empty();
+            this.allPlayers[i].bust = false;
         }
+        $('#dealer-total').text("");
+        this.deck.create().shuffle();
+        this.playerCursor = 0;
+
+
+    },
+
+    check: function () {
+        // check for bust
+        this.checkBust();
+        
 
 
     },
@@ -45,6 +58,21 @@ Game.prototype = {
         //console.log(this.allPlayers);
     },
 
+    hit: function () {
+        if (this.allPlayers[this.playerCursor].bust === true) {
+            return;
+        }
+        this.allPlayers[this.playerCursor].cards.push(this.deck.deal()[0]);
+        console.log('hit');
+    },
+
+    checkBust: function () {
+        if (this.allPlayers[this.playerCursor].cardTotal() > 21) {
+            this.allPlayers[this.playerCursor].bust = true;
+        }
+
+    },
+
     init: function () {
         this.state = 1;
         var i, j, ilen, jlen;
@@ -56,47 +84,66 @@ Game.prototype = {
                         .text(that.allPlayers[i].cards[j]));
 
                 }
-                if (!that.allPlayers[i].dealer) {
-                    that.allPlayers[i].element.append($('<button></button>')
-                        .text("HIT"));
-                    that.allPlayers[i].element.on('click', function() {
-                        console.log("add a sing card to player");
-                        console.log(that.allPlayers[i]);
-                        that.allPlayers[i].cards.push(that.deck.deal());
-                        that.render();
-
-                    });
-                    that.allPlayers[i].element.append($('<button></button>')
-                        .text("STAND"));
-                }
             })(i, that);
         }
         
 
     },
 
-    render: function () {
-        var that = this;
+    render: function (dealer) {
+
+        // render game over if bust
+        
+
+        // hide is false after the first card of dealer.
+        var hide = true;
         this.allPlayers.forEach(function(element) {
             element.element.empty();
+
+
+
+
             element.cards.forEach(function(card) {
-                element.element.append($('<span></span>')
-                    .text(card));
+                if (element.dealer && dealer) {
+
+                    element.element.append($('<span></span>')
+                        .text(card));
+                } else if (element.dealer && hide) {
+                    // First dealer card is hidden
+                    element.element.append($('<span></span>')
+                        .text("??"));
+                    hide = false;
+
+                } else {
+                    element.element.append($('<span></span>')
+                        .text(card));
+
+                }
             });
 
-            if (!element.dealer) {
-                element.element.append($('<button></button>').text("HIT").on('click', function () {
-                    element.cards.push(that.deck.deal()[0]);
-                    console.log("hit");
-                    that.render();
-                }));
-            }
+
+            // show total for dealer and player
+            if (element.cards.length > 1 && dealer) {
+                element.element.next().text("");
+                element.element.next().text(element.cardTotal());
+
+            } else if (element.cards.length > 1 && !element.dealer) {
+                element.element.next().text("");
+                element.element.next().text(element.cardTotal());
+            } 
 
         });
 
+        for (var i = 0, len = this.allPlayers.length; i < len; i++) {
+            if (this.allPlayers[i].bust === true) {
+                this.allPlayers[i].element.next().next().text("BUST");
+            }
+        }
 
     }
 }
+
+// TODO: use single object for both player and dealer
 
 var Player = function (name) {
     this.dealer = false;
@@ -116,6 +163,125 @@ var Dealer = function () {
     this.element = $('#dealer-cards');
 }
 
+Player.prototype = {
+    cardTotal: function () {
+        var cardValue = this.cards.map(function(el) {
+            return el.substring(0, el.length - 1);
+        });
+
+        var total = cardValue.reduce(function(p, c, index, array) {
+            console.log('prev', p);
+
+
+            // Switch used to convert letters to numbers    
+            switch (p) {
+                case "A":
+                    p = 11;
+                    break;
+                case "J":
+                case "Q":
+                case "K":
+                    p = 10;
+                    break;
+                default:
+                    p = +p;
+            }
+
+            switch (c) {
+                case "A":
+                    c = 11;
+                    break;
+                case "J":
+                case "Q":
+                case "K":
+                    c = 10;
+                    break;
+                default:
+                    c = +c;
+            }
+            return p + c;
+        })
+
+        // if total is alrger than 21 check for aces in the hand.
+        // If aces are not found, do nothing.
+        // Subtract 10 for each aces iteratively and 
+        if (total > 21 ) {
+            var aCount = cardValue.filter(function(el) {
+                return el === "A";
+            });
+            for (var i = 0, len = aCount.length; i < len; i++) {
+                total -= 10;
+                if (total <= 21) {
+                    return total;
+                }
+            }
+        }
+        return total;
+
+    }
+
+};
+
+Dealer.prototype = {
+    cardTotal: function () {
+        var cardValue = this.cards.map(function(el) {
+            return el.substring(0, el.length - 1);
+        });
+
+        var total = cardValue.reduce(function(p, c, index, array) {
+            console.log('prev', p);
+
+
+            // Switch used to convert letters to numbers    
+            switch (p) {
+                case "A":
+                    p = 11;
+                    break;
+                case "J":
+                case "Q":
+                case "K":
+                    p = 10;
+                    break;
+                default:
+                    p = +p;
+            }
+
+            switch (c) {
+                case "A":
+                    c = 11;
+                    break;
+                case "J":
+                case "Q":
+                case "K":
+                    c = 10;
+                    break;
+                default:
+                    c = +c;
+            }
+            return p + c;
+        })
+
+        // if total is alrger than 21 check for aces in the hand.
+        // If aces are not found, do nothing.
+        // Subtract 10 for each aces iteratively and 
+        if (total > 21 ) {
+            var aCount = cardValue.filter(function(el) {
+                return el === "A";
+            });
+            for (var i = 0, len = aCount.length; i < len; i++) {
+                total -= 10;
+                if (total <= 21) {
+                    return total;
+                }
+            }
+        }
+        return total;
+    }    
+
+};
+
+
+
 var game = new Game([new Player], new Dealer, new PlayingCards);
 
 // start game by clicking on deal button
@@ -127,6 +293,25 @@ $(".deal").on('click', function() {
     $(this).text("Restart");
     game.deal();
     game.render();
-
-
 });
+
+$('#hit').on('click', function () {
+    if (game.state === 0) {
+        return;
+    }
+    game.hit();
+    game.check();
+    game.render();
+});
+
+$('#stand').on('click', function() {
+    if (game.state === 0) {
+        return;
+    }
+    game.playerCursor = 1;
+    game.hit();
+
+    game.render(true);
+
+
+})

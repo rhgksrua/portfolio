@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('header')
-    {{ HTML::style('/resources/css/blackjack.css') }}
+    {{ HTML::style('/resources/css/blackjack/blackjack.css') }}
 @stop
 
 @section('content')
@@ -14,15 +14,21 @@
             <h2>Dealer</h2>
             <div id="dealer-cards">
             </div>
+            <div id="dealer-total">
+            </div>
+            <p id="dealer-status">ok</p>
         </div>
         <div class="player">
             <h2>Player</h2>
             <div id="player-cards">
 
             </div>
-            <button id="hit">HIT</button>
-            <button id="stand">STAND</button>
+            <div id="player-total">
+            </div>
+            <p id="player-status">iok</p>
         </div>
+        <button id="hit">HIT</button>
+        <button id="stand">STAND</button>
         
 
 
