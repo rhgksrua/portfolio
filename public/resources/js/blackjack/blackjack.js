@@ -9,6 +9,8 @@ var Game = function (players, dealer, playingCards) {
     this.allPlayers = players.concat(dealer);
     this.playerCursor = 0;
     this.state = 0;
+    this.replenished = false;
+    this.bet = 0;
 
 }
 
@@ -18,8 +20,16 @@ Game.prototype = {
         return this.allPlayers.length;
     },
 
+    deckEmpty: function() {
+        if (this.deck.cards.length < 1) {
+            console.log("deck is empty add new deck");
+            this.deck.create(1, 3);
+            this.replenished = true;
+        }
+    },
 
     deal: function () {
+        this.deckEmpty();
         var i, j, len;
         for (j = 0; j < 2; j++) {
             for (i = 0, len = this.allPlayers.length; i < len; i++) {
@@ -29,8 +39,12 @@ Game.prototype = {
     },
 
     hit: function () {
+        this.deckEmpty();
+
+        // Prevent busted player from hitting
         if (this.allPlayers[this.playerCursor].bust) {
-            console.log('player bust, not more hits');
+            console.log('player bust, player cannot hit');
+            this.state = 2;
             return;
 
         }
@@ -51,7 +65,8 @@ Game.prototype = {
             this.allPlayers[1].bust = true;
             // game ended
         }
-        this.state = 2;
+
+        this.state = 3;
 
 
 
@@ -72,6 +87,8 @@ Game.prototype = {
         for (i = 0, len = this.allPlayers.length; i < len; i++) {
             this.allPlayers[i].cards = [];
         }
+        $('#hit').prop('disabled', false);
+        $('#stand').prop('disabled', false);
 
 
     },
@@ -95,7 +112,18 @@ Game.prototype = {
         }
         // Betting successful
         $('#errors').text("");
+        this.bet = bet;
         return true;
+
+    },
+
+    checkPlayerTurnEnd: function () {
+        // Check player end
+        // If player stands go to dealer's turn
+        // If player busts, show dealer hand and get winner
+        if (this.allPlayers[0].bust === true) {
+
+        }
 
     },
 
@@ -107,10 +135,12 @@ Game.prototype = {
 
         // Clear screen
         $('#player0-status').text("");
+        $('#dealer-status').text("");
+        $('#dealer-cards').empty();
+        $('#player0-cards').empty();
         
 
         // DEALER CARDS
-        $('#dealer-cards').empty();
         var docFrag = $(document.createDocumentFragment());
         for (var i = 0, len = this.allPlayers[1].cards.length; i < len; i++) {
             //console.log(this.allPlayers[1].cards);
@@ -126,36 +156,80 @@ Game.prototype = {
         $('#dealer-cards').append(docFrag);
 
         // PLAYER CARDS
-        $('#player0-cards').empty();
         var docFrag = $(document.createDocumentFragment());
         for (var i = 0, len = this.allPlayers[0].cards.length; i < len; i++) {
             docFrag.append($('<p></p>').text(this.allPlayers[0].cards[i].rank + this.allPlayers[0].cards[i].suit));
         }
         $('#player0-cards').append(docFrag);
 
-        // player total card value
+        // show player total card value
         $('#player0-total').text(this.allPlayers[0].cardTotal());
 
+        // Only show dealer total when player stands or busts
+        // TODO: fix this
+        
         if (game.state >= 2) {
             $('#dealer-total').text(this.allPlayers[1].cardTotal());
         } else {
             $('#dealer-total').text("");
         }
+        
 
+        // Checking player bust and change game state
         if (this.allPlayers[0].bust) {
             $('#player0-status').text("BUST");
+            this.state = 3;
+            this.checkWinner();
+        }
+        if (this.allPlayers[1].bust) {
+            $('#dealer-status').text("BUST");
+            this.checkWinner();
         }
 
+        // when deck is empty this.replenished is set to true in deckEmpty
+        // check if new deck has been created and add it to the DOM.
+        if (this.replenished) {
+            $('#game-status').text('New deck created');
+            this.replenished = false;
+        } else {
+            $('#game-status').text('');
+
+        }
+
+        $('#dealer-total').text(this.allPlayers[1].money);
 
 
     },
 
     checkWinner: function() {
+        $('#deal').prop('disabled', false);
+        $('#hit').prop('disabled', true);
+        $('#stand').prop('disabled', true);
         if (this.allPlayers[0].bust) {
-            console.log("player loses");
+            console.log("player busts, player loses");
+            this.allPlayers[0].money -= +this.bet;
+            this.allPlayers[1].money += +this.bet;
+            return;
         } else if (this.allPlayers[1].bust) {
-            console.log("player wins");
+            console.log("dealer busts, player wins");
+            this.allPlayers[1].money -= +this.bet;
+            this.allPlayers[0].money += +this.bet;
+            return;
         }
+
+        if (this.allPlayers[0].cardTotal() < this.allPlayers[1].cardTotal()) {
+            console.log('player loses');
+            this.allPlayers[0].money -= +this.bet;
+            this.allPlayers[1].money += +this.bet;
+        } else if (this.allPlayers[0].cardTotal() === this.allPlayers[1].cardTotal()) {
+            console.log('PUSH');
+        } else {
+            console.log('player wins');
+            this.allPlayers[1].money -= +this.bet;
+            this.allPlayers[0].money += +this.bet;
+        }
+
+
     }
 }
 
@@ -173,15 +247,7 @@ var Player = function (element, dealer, money) {
 Player.prototype = {
     cardTotal: function () {
 
-
-/*
-        var total = this.cards.reduce(function(p, c, i, a) {
-            console.log(p.value, c.value);
-            return p.value + c.value;
-
-        });
-*/
-
+        // Get total value for a player
         var total = 0;
         for (var i = 0, len = this.cards.length; i < len; i++) {
             total += this.cards[i].value;
@@ -217,44 +283,59 @@ Player.prototype = {
 };
 
 
+// game.state
+// 0: cards not dealt yet
+// 1: cards dealt. player turn
+// 2: dealer turn
+// 3: game ended. Get winner
+
 
 
 var game = new Game([new Player], new Player(true), new PlayingCards);
 
 // start game by clicking on deal button
 
+$('#dealer-total').text(game.allPlayers[1].money);
+$('#player0-total').text(game.allPlayers[0].money);
 $("#deal").on('click', function() {
     // Check bet amount
     if (!game.init()) {
         return;
     } else {
         game.state = 0;
-
         game.reset();
         game.deal();
         game.render();
         // cards dealt;
         game.state = 1;
         game.playerCursor = 0;
+        $('#hit').prop('disabled', false);
+        $('#stand').prop('disabled', false);
+        $('#deal').prop('disabled', true);
 
     }
 
 });
 
 $('#hit').on('click', function () {
+    // prevent hit / stand when cards are not dealt yet
     if (game.state === 0) {
         return;
     }
-    game.hit();
 
+    game.hit();
     game.render();
 });
 
 $('#stand').on('click', function() {
+    // prevent hit / stand when cards are not dealt yet
     if (game.state === 0) {
         return;
     }
+
+    // Mover cursor to dealer
     game.playerCursor = 1;
+    game.state = 2;
     game.dealerTurn();
 
     game.render(true);

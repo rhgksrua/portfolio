@@ -9,6 +9,8 @@
 
     <div class="blackjack-container">
 
+        <div id="game-status"></div>
+
         <div class="dealer">
             <h2>Dealer</h2>
             <div id="dealer-cards"></div>
@@ -22,9 +24,9 @@
             <div id="player0-status"></div>
             <div id="player0-actions">
                 <label for="bet">Bet</label>
-                <input type="text" id="bet" />
-                <button id="hit">Hit</button>
-                <button id="stand">Stand</button>
+                <input type="text" id="bet" value="100" />
+                <button id="hit" disabled>Hit</button>
+                <button id="stand" disabled>Stand</button>
             </div>
         </div>
         <button id="deal">Deal</button>
