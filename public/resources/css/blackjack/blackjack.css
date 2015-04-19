@@ -2,12 +2,10 @@
 
 .dealer {
     padding: 20px;
-    height: 100px;
 }
 
 .player {
     padding: 20px;
-    height: 100px;
 }
 
 #player0-actions {
@@ -30,4 +28,18 @@ button {
 span {
     display: inline-block;
     padding: 5px;
+}
+
+#deal {
+    position: absolute;
+    top: 100px;
+    left: 0;
+}
+
+.left {
+    float: left;
+}
+
+#clear {
+    clear: both;
 }

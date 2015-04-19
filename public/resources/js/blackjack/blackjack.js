@@ -8,6 +8,14 @@ var Game = function (players, dealer, playingCards) {
     // contains all elements of a game of blackjack
     this.allPlayers = players.concat(dealer);
     this.playerCursor = 0;
+
+    // state:
+    // 0: cards dealt -> check for blackjack
+    // 1: player turn -> hit/stand -> bust or goto dealer turn
+    // 2: dealer turn -> hit until 17 or bust -> goto check winner
+    // 3: check winner -> show everything -> check winner
+
+
     this.state = 0;
     this.replenished = false;
     this.bet = 0;
@@ -67,9 +75,16 @@ Game.prototype = {
         }
 
         this.state = 3;
+    },
 
+    checkPlayerBlackjack: function() {
+        var i, len;
+        for (i = 0, len = this.allPlayers[i].length - 1; i < len; i++) {
+            if (this.allPlayers[i].cardTotal() === 21) {
+                this.allPlayers[i].blackjack = true;
+            }
 
-
+        }
 
     },
 
@@ -83,12 +98,16 @@ Game.prototype = {
         return true;
     },
 
-    reset: function () {
+    resetHand: function () {
+        // remove cards from player and dealer
+        // remove 
         for (i = 0, len = this.allPlayers.length; i < len; i++) {
             this.allPlayers[i].cards = [];
         }
+        /*
         $('#hit').prop('disabled', false);
         $('#stand').prop('disabled', false);
+        */
 
 
     },
@@ -96,15 +115,16 @@ Game.prototype = {
     setBet: function () {
         var i, len
         var bet = $('#bet').val();
+
         // Invalid input
+        // not entered, negative, -> error
         if (!bet || bet <= 0) {
             $('#errors').text("Bet Amount Invalid");
             return false;
         }
 
-        // not enough money
+        // bet larger than dealer or player -> error
         for (i = 0, len = this.allPlayers.length; i < len; i++) {
-            //console.log(this.allPlayers[i].money);
             if (bet > this.allPlayers[i].money) {
                 $('#errors').text("Not enough money");
                 return false;
@@ -113,6 +133,7 @@ Game.prototype = {
         // Betting successful
         $('#errors').text("");
         this.bet = bet;
+        this.allPlayers[0].bet = bet;
         return true;
 
     },
@@ -201,7 +222,43 @@ Game.prototype = {
 
     },
 
-    checkWinner: function() {
+    endGame: function(winner) {
+        switch (winner) {
+            case 0:
+                console.log("push: blackjack for player and dealer");
+                break;
+            case -1:
+                console.log("dealer blackjack");
+                break;
+            case 1:
+                console.log("player blackjack");
+                break;
+            default:
+                console.log("Invalid winner");
+        }
+
+    },
+
+    checkWinner: function(state) {
+
+        switch (state) {
+            case 0:
+                // Check if player has blackjack -> 
+                // goto dealer turn.
+                if (this.allPlayers[0].blackjack) {
+                    this.state = 2;
+                }
+                break;
+            case 1:
+            default:
+
+
+
+        }
+
+
+
+
         $('#deal').prop('disabled', false);
         $('#hit').prop('disabled', true);
         $('#stand').prop('disabled', true);
@@ -241,6 +298,8 @@ var Player = function (element, dealer, money) {
     this.cards = [];
     this.bust = false;
     this.element = element;
+    this.bet = 0;
+    this.blackjack = false;
 
 }
 
@@ -297,21 +356,21 @@ var game = new Game([new Player], new Player(true), new PlayingCards);
 
 $('#dealer-total').text(game.allPlayers[1].money);
 $('#player0-total').text(game.allPlayers[0].money);
+
+// At state 0, These steps must happen
 $("#deal").on('click', function() {
-    // Check bet amount
     if (!game.init()) {
+        // Check bet amount
         return;
     } else {
-        game.state = 0;
-        game.reset();
+        // legal bet
+        game.resetHand();
         game.deal();
+        game.checkBlackjack();
+        game.checkWinner(0);
         game.render();
         // cards dealt;
         game.state = 1;
-        game.playerCursor = 0;
-        $('#hit').prop('disabled', false);
-        $('#stand').prop('disabled', false);
-        $('#deal').prop('disabled', true);
 
     }
 
