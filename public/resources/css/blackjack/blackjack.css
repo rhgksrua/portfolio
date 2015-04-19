@@ -1,24 +1,41 @@
 /* blackjack.css */
 
+.blackjack-container {
+    padding-top: 20px;
+}
+
+#game-status {
+    height: 20px;
+    color: red;
+}
+#deck-status {
+    height: 20px;
+}
+
 .dealer {
     padding: 20px;
+    min-width: 250px;
 }
 
 .player {
     padding: 20px;
+    min-width: 250px;
 }
 
 #player0-actions {
     display: block;
 }
 
-.player p {
-    display: inline-block;
-    padding: 5px;
-}
 .dealer p {
     display: inline-block;
     padding: 5px;
+    height: 10px;
+}
+
+.player p {
+    display: inline-block;
+    padding: 5px;
+    height: 10px;
 }
 
 button {
@@ -31,15 +48,31 @@ span {
 }
 
 #deal {
-    position: absolute;
-    top: 100px;
-    left: 0;
+    clear: left;
+}
+
+
+#clear {
+    clear: both;
+}
+
+.dealer div {
+    height: 15px;
+    padding-left: 15px;
+}
+.player div {
+    height: 15px;
+    padding-left: 15px;
 }
 
 .left {
     float: left;
 }
 
-#clear {
-    clear: both;
+.card-count {
+    display: none;
+}
+
+.show {
+    display: block;
 }

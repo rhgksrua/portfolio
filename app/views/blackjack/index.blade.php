@@ -9,10 +9,12 @@
 
     <div class="blackjack-container">
 
-        <h4>Game Status: </h4>
-        <div id="game-status"></div>
-        <h4>Deck Status: </h4>
-        <div id="deck-status"></div>
+        <div class="game-settings">
+            <input type="checkbox" id="show-card-number" />Show number of cards left in deck
+            <br />
+            <input type="checkbox" id="card-counting" />Card counting
+
+        </div>
 
         <div class="dealer left">
             <h2>Dealer</h2>
@@ -33,24 +35,46 @@
             <h2>Player</h2>
             <p>Cards: </p>
             <div id="player0-cards"></div>
+
             <p>Cards Total: </p>
             <div id="player0-total"></div>
+
             <p>Player Status</p>
             <div id="player0-status"></div>
+
             <p>Player Money</p>
             <div id="player0-money"></div>
-            <p>Player Actions</p>
-            <div id="player0-actions">
-                <label for="bet">Bet</label>
-                <input type="text" id="bet" value="100" />
-                <button id="hit" disabled>Hit</button>
-                <button id="stand" disabled>Stand</button>
-            </div>
+
         </div>
-        <button id="deal">Deal</button>
+        <div class="game-info left">
+            <h4>Game Info: </h4>
+
+            <div class="card-count">
+                <p>Number of cards left in deck</p>
+                <div id="card-count"></div>
+            </div>
+
+            <div>
+                <p>Number of decks used</p>
+                <div id="deck-count"></div>
+            </div>
+
+            <div id="deck-status"></div>
+
+        </div>
         <p id="errors"></p>
     </div>
     <div id="clear"></div>
+    <p>Player Actions</p>
+    <div id="player0-actions">
+        <label for="bet">Bet</label>
+        <input type="text" id="bet" value="100" />
+        <button id="hit" disabled>Hit</button>
+        <button id="stand" disabled>Stand</button>
+    </div>
+    <h4>Game Status: </h4>
+    <div id="game-status"></div>
+    <button id="deal">Deal</button>
 
     
     
