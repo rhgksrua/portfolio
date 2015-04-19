@@ -182,9 +182,9 @@ Game.prototype = {
 
 
         // Clear screen status
-        $('#dealer-status').empty();          
+        //$('#dealer-status').empty();          
         $('#dealer-status').text("");            
-        $('#player0-status').empty();
+        //$('#player0-status').empty();
         $('#player0-status').text("");
 
         /*
@@ -441,6 +441,8 @@ Player.prototype = {
 
 var game = new Game([new Player], new Player(true), new PlayingCards);
 
+$('#dealer-money').text(game.dealer.money);
+$('#player0-money').text(game.players[0].money);
 
 
 // At state 0, These steps must happen
