@@ -226,6 +226,16 @@ Game.prototype = {
 
     render: function () {
 
+        // Hightlight current state:
+        // Hightlights player box or dealer box
+        if (this.state <= 1) {
+            $('.player').addClass('turn-cursor');
+            $('.dealer').removeClass('turn-cursor');
+        } else {
+            $('.player').removeClass('turn-cursor');
+            $('.dealer').addClass('turn-cursor');
+        }
+
         var cardText = "";
 
         // Clear screen
@@ -327,6 +337,7 @@ Game.prototype = {
     },
 
     checkWinner: function(state) {
+        // TODO: separate output of winners
 
         // Enable deal button and bet input
         $('#deal').prop('disabled', false);
@@ -337,6 +348,7 @@ Game.prototype = {
             this.players[0].money += Math.floor((+this.bet) * 1.5);
             this.dealer.money -= Math.floor((+this.bet) * 1.5);
             $('#game-status').text("Player BLACKJACK!!!!  win " + Math.floor((+this.bet) * 1.5));
+            $('.player').addClass('winner');
             return;
         }
         
@@ -348,13 +360,16 @@ Game.prototype = {
             this.players[0].money -= +this.bet;
             this.dealer.money += +this.bet;
             $('#game-status').text("Player loses" + this.bet);
+            $('.dealer').addClass('winner');
             return;
         } else if (this.dealer.bust) {
             // Dealer bust
             console.log("dealer busts, player wins");
             this.players[0].money += +this.bet;
             this.dealer.money -= +this.bet;
-            $('#game-status').text("Player wins" + this.bet);
+            $('#game-status').text("Player wins " + this.bet);
+            $('.player').addClass('winner');
+
             return;
         }
 
@@ -363,15 +378,19 @@ Game.prototype = {
             console.log('player loses');
             this.players[0].money -= +this.bet;
             this.dealer.money += +this.bet;
-            $('#game-status').text("Player loses" + this.bet);
+            $('#game-status').text("Player loses " + this.bet);
+            $('.dealer').addClass('winner');
         } else if (this.players[0].cardTotal() === this.dealer.cardTotal()) {
-            $('#game-status').text("No Winners");
+            $('#game-status').text("No Winner");
+            $('.player').addClass('push');
+            $('.dealer').addClass('push');
             console.log('PUSH');
         } else {
             console.log('player wins');
             this.dealer.money -= +this.bet;
             this.players[0].money += +this.bet;
-            $('#game-status').text("Player wins" + this.bet);
+            $('#game-status').text("Player wins " + this.bet);
+            $('.player').addClass('winner');
         }
 
         // A round of blackjack has ended
@@ -447,6 +466,10 @@ $("#deal").on('click', function() {
         return;
     } else {
         $('#game-status').text("");
+        $('.player').removeClass('winner');
+        $('.dealer').removeClass('winner');
+        $('.player').removeClass('push');
+        $('.dealer').removeClass('push');
         $('#bet').prop('disabled', true);
         // Valid bet
         // 

@@ -1,12 +1,19 @@
 /* blackjack.css */
 
+
 .blackjack-container {
     padding-top: 20px;
 }
 
+.game-settings {
+    padding: 20px;
+    border: 2px solid #ddd;
+    width: 250px;
+}
+
 #game-status {
     height: 20px;
-    color: red;
+    color: #F44336;
 }
 #deck-status {
     height: 20px;
@@ -15,11 +22,28 @@
 .dealer {
     padding: 20px;
     min-width: 250px;
+    border: 2px solid #ddd;
+    height: 200px;
 }
 
 .player {
     padding: 20px;
     min-width: 250px;
+    border: 2px solid #ddd;
+    height: 200px;
+}
+
+.game-info {
+    padding: 20px;
+    min-width: 250px;
+    border: 2px solid #ddd;
+    height: 200px;
+}
+
+.player-actions {
+    padding: 20px;
+    width: 250px;
+    border: 2px solid #ddd;
 }
 
 #player0-actions {
@@ -75,4 +99,35 @@ span {
 
 .show {
     display: block;
+}
+
+.game-status {
+    width: 215px;
+    padding: 20px;
+}
+
+
+
+.turn-cursor {
+    background: #eee;
+}
+
+.winner {
+    border: 2px solid #F44336;
+}
+
+.push {
+    border: 2px solid #2196F3;
+}
+
+
+@media (max-width: 600px) {
+    .container {
+        margin: 0;
+        padding: 0;
+    }
+
+    div {
+        border: 0;
+    }
 }

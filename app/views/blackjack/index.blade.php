@@ -1,7 +1,9 @@
 @extends('master')
 
 @section('header')
-    {{ HTML::style('/resources/css/blackjack/blackjack.css') }}
+
+    <link rel="stylesheet" media="(max-width: 600px)" href="/resources/css/blackjack/blackjack-mobile.css">
+    <link rel="stylesheet" media="(min-width: 600px)" href="/resources/css/blackjack/blackjack.css">
 @stop
 
 @section('content')
@@ -65,16 +67,20 @@
         <p id="errors"></p>
     </div>
     <div id="clear"></div>
-    <p>Player Actions</p>
-    <div id="player0-actions">
-        <label for="bet">Bet</label>
-        <input type="text" id="bet" value="100" />
-        <button id="hit" disabled>Hit</button>
-        <button id="stand" disabled>Stand</button>
+    <div class="player-actions">
+        <h4>Player Actions</h4>
+        <div id="player0-actions">
+            <label for="bet">Bet</label>
+            <input type="text" id="bet" value="100" />
+            <button id="hit" disabled>Hit</button>
+            <button id="stand" disabled>Stand</button>
+            <button id="deal">Deal</button>
+        </div>
     </div>
-    <h4>Game Status: </h4>
-    <div id="game-status"></div>
-    <button id="deal">Deal</button>
+    <div class="game-status">
+        <h4>Game Status: </h4>
+        <div id="game-status"></div>
+    </div>
 
     
     
