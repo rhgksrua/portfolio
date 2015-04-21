@@ -1,0 +1,116 @@
+.container {
+    margin: 0;
+    padding: 40px 0 0 0;
+}
+
+.blackjack-container {
+    padding-top: 20px;
+}
+
+.game-settings {
+    padding: 2px;
+    border-top: 1px solid #ddd;
+    width: 95%;
+}
+
+#game-status {
+    height: 20px;
+    color: #F44336;
+}
+#deck-status {
+    height: 20px;
+}
+
+.dealer {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    height: 200px;
+}
+
+.player {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    height: 200px;
+}
+
+.game-info {
+    padding: 20px;
+    height: 200px;
+}
+
+.player-actions {
+    padding: 20px;
+}
+
+#player0-actions {
+    display: block;
+}
+
+.dealer p {
+    display: inline-block;
+    height: 10px;
+}
+
+.player p {
+    display: inline-block;
+    height: 10px;
+}
+
+button {
+    margin: 20px;
+}
+
+span {
+    display: inline-block;
+    padding: 5px;
+}
+
+#deal {
+    clear: left;
+}
+
+
+#clear {
+    clear: both;
+}
+
+.dealer div {
+    height: 15px;
+    padding-left: 15px;
+}
+.player div {
+    height: 15px;
+    padding-left: 15px;
+}
+
+.card-count {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.game-status {
+    padding: 20px;
+}
+
+
+
+.turn-cursor {
+    background: #eee;
+}
+
+.winner {
+    border: 2px solid #F44336;
+}
+
+.push {
+    border: 2px solid #2196F3;
+}
+
+button {
+    margin: 10px;
+    padding: 10px;
+    width: 75px;
+}

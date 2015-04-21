@@ -121,13 +121,3 @@ span {
 }
 
 
-@media (max-width: 600px) {
-    .container {
-        margin: 0;
-        padding: 0;
-    }
-
-    div {
-        border: 0;
-    }
-}

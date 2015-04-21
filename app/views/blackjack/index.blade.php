@@ -72,6 +72,7 @@
         <div id="player0-actions">
             <label for="bet">Bet</label>
             <input type="text" id="bet" value="100" />
+            <br />
             <button id="hit" disabled>Hit</button>
             <button id="stand" disabled>Stand</button>
             <button id="deal">Deal</button>
