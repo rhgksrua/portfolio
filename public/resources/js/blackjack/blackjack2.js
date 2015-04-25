@@ -30,20 +30,37 @@ var Game = function (players, dealer, playingCards) {
 
 Game.prototype = {
 
+    /**
+     * Returns number of players.
+     * @method  countPlayers
+     * @return {Number} Number of players in current game.
+     */
     countPlayers: function () {
         return this.allPlayers.length;
     },
 
+    /**
+     * Adds another deck is current deck is empty
+     * 
+     * @method deckEmpty
+     * @return {void}
+     */
     deckEmpty: function() {
         if (this.deck.cards.length < 1) {
-            console.log("deck is empty add new deck");
             this.deck.create(1, 3).shuffle();
             this.replenished = true;
             this.decksUsed += 1;
         }
     },
 
+    /**
+     * Deals a single card to each player until all players have two cards.
+     *
+     * @method  deal
+     * @return {void} 
+     */
     deal: function () {
+        // Adds new deck if empty
         this.deckEmpty();
         var i, j, len;
         for (j = 0; j < 2; j++) {
@@ -56,29 +73,33 @@ Game.prototype = {
         // Show Hit stand button
         $('#hit').prop('disabled', false);
         $('#stand').prop('disabled', false);
-        console.log("buttons enabled");
         this.state = 1;
     },
 
+    /**
+     * Allows players and dealer to hit.
+     *
+     * @method hit
+     * @return {void}
+     */
     hit: function () {
         this.deckEmpty();
+        // Player turn.
         if (this.state === 1) {
-
             // Prevent busted player from hitting
             if (this.players[this.playerCursor].bust) {
-                console.log('player bust, player cannot hit');
                 this.state = 2;
                 return;
 
             }
+            // If not bust, hit.
             var newCard = this.deck.deal()[0];
-            //console.log(newCard);
             this.players[this.playerCursor].cards.push(newCard);
-            console.log('player hit');
 
         } else if (this.state === 2) {
+            // Dealer turn.
             if (this.dealerbust) {
-                console.log('dealer bust, dealer cannot hit');
+                // End of game.
                 this.state = 3;
                 return;
 
@@ -86,11 +107,16 @@ Game.prototype = {
             var newCard = this.deck.deal()[0];
             //console.log(newCard);
             this.dealer.cards.push(newCard);
-            console.log('dealer hit');
+            
 
         }
     },
 
+    /**
+     * Dealer hits until 17 or greater.  Also, check for bust.
+     *
+     * @return {void}
+     */
     dealerTurn: function() {
         this.state = 2;
         while (this.dealer.cardTotal() < 17) {
@@ -102,28 +128,28 @@ Game.prototype = {
             // game ended
         }
 
-
-
         this.state = 3;
     },
 
+    /**
+     * Check if player has blackjack.  If blackjack, move to next player.
+     * @return
+     */
     checkPlayerBlackjack: function() {
         var i, len;
-        console.log("checking bj");
         for (i = 0, len = this.players.length; i < len; i++) {
             if (this.players[i].cardTotal() === 21) {
-                console.log("found black jack in player");
                 this.players[i].blackjack = true;
-                //this.state = 3;
-                //this.nextAction();
                 this.playerTurnEnd();
                 this.checkWinner();
             }
-
         }
-
     },
 
+    /**
+     * Check for valid bet from players
+     * @return {[type]} [description]
+     */
     init: function () {
 
         // Check settings
@@ -142,12 +168,16 @@ Game.prototype = {
         return true;
     },
 
+    /**
+     * [setBet description]
+     * @return {Boolean} Returns true if bet is valid.
+     */
     setBet: function () {
         var i, len
         var bet = +$('#bet').val();
 
         // Invalid input
-        // not entered, negative, -> error
+        // not entered, negative.
         if (!bet || bet <= 0) {
             $('#errors').text("Bet Amount Invalid");
             return false;
@@ -166,14 +196,16 @@ Game.prototype = {
         this.bet = bet;
         // Set bet amount in player
         this.players.forEach(function(el) {
-            console.log("setting player bet", bet);
-
             el.bet = bet;
         });
         return true;
 
     },
 
+    /**
+     * Resets all players hand.
+     * @return {void}
+     */
     resetHand: function () {
         // remove cards from player and dealer
 
@@ -192,16 +224,6 @@ Game.prototype = {
         // Clear screen status
         $('#dealer-status').text("");            
         $('#player0-status').text("");
-    },
-
-
-    checkPlayerTurnEnd: function () {
-        // Check player end
-        // If player stands go to dealer's turn
-        // If player busts, show dealer hand and get winner
-        if (this.allPlayers[0].bust === true) {
-        }
-
     },
 
     checkPlayerBust: function () {
@@ -250,7 +272,6 @@ Game.prototype = {
             $('.card-count').removeClass("show");
         }
 
-        
         // PLAYER CARDS
         for (var i = 0, len = this.players[0].cards.length; i < len; i++) {
             cardText += this.players[0].cards[i].rank + this.players[0].cards[i].suit + " ";
@@ -280,7 +301,7 @@ Game.prototype = {
                 cardText += this.dealer.cards[i].rank + this.dealer.cards[i].suit + " ";
             }
         }
-        console.log(cardText);
+        
         $('#dealer-cards').text(cardText);
 
         // Only show dealer total when player stands or busts
