@@ -231,7 +231,8 @@ Game.prototype = {
                 '<div id="player' + i + '-actions">' +
                 '<label for="bet' + i + '">Bet</label>' +
                 '<input type="text" id="bet' + i + '" value="100" />' +
-                '<br />';
+                '<br />' +
+                '<p id=erros' + i + '"></p>';
 
             
 
@@ -254,6 +255,11 @@ Game.prototype = {
      * @return {Boolean} Returns true if bet is valid.
      */
     setBet: function () {
+
+        // NOTE!!!!!!!!
+        // Need to set be to each players in a loop.
+
+
         var i, len
         var bet = +$('#bet').val();
 

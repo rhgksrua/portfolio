@@ -73,7 +73,6 @@
         -->
         </div>
         
-        <p id="errors"></p>
     </div>
     <div id="clear"></div>
     <div class="player-action-container">
