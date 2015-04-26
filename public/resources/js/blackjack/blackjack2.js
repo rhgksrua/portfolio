@@ -8,6 +8,8 @@ var Game = function (players, dealer, playingCards) {
     this.dealer = dealer;
     this.players = players
     this.playerCursor = 0;
+    this.errors = [];
+    this.playerCount = 0;
 
     // state:
     // 0: cards dealt -> check for blackjack
@@ -156,7 +158,10 @@ Game.prototype = {
         this.settings.cardNumber = $('#show-card-number').prop('checked');
         console.log('checked: ', this.settings.cardNumber);
 
-
+        // Check settings
+        if (!this.setSettings()) {
+            return false;
+        }
 
         // Check bet
         // Deal Cards to players
@@ -166,6 +171,82 @@ Game.prototype = {
             return false;
         }
         return true;
+    },
+
+    /**
+     * Set setting before game starts
+     * 
+     */
+    setSettings: function () {
+
+        var numberOfPlayers = +$('#player-count').val();
+        console.log('p count', numberOfPlayers);
+        console.log(!isNaN(numberOfPlayers));
+        if (numberOfPlayers < 1 || isNaN(numberOfPlayers)) {
+            this.errors.push('Invalid player count');
+            console.log('setting error');
+            return false;
+        }
+
+        this.playerCount = numberOfPlayers;
+        this.addPlayerHTML(numberOfPlayers);
+
+        return true;
+    },
+
+    addPlayerHTML: function (num) {
+
+        var playerHTML = "";
+        var actionHTML = "";
+        var actionButtons = "";
+        var parentPlayer = $('.players-container');
+        var parentAction = $('.player-action-container');
+        /*
+        if (parent.length < num) {
+            parent.empty();
+        }
+        */
+        parentPlayer.empty();
+        parentAction.empty();
+
+        for (i = 0; i < num; i++) {
+
+            playerHTML += '<div class="player left">' +
+                '<h2>Player ' + i + '</h2>' +
+                '<p>Cards: </p>' +
+                '<div id="player' + i + '-cards"></div>' +
+
+                '<p>Cards Total: </p>' +
+                '<div id="player' + i + '-total"></div>' +
+
+                '<p>Player Status</p>' +
+                '<div id="player' + i + '-status"></div>' +
+
+                '<p>Player Money</p>' +
+                '<div id="player' + i + '-money"></div>' +
+
+                '</div>';
+            actionHTML += '<div class="player-actions">' +
+                '<h4>Player' + i + ' Actions</h4>' +
+                '<div id="player' + i + '-actions">' +
+                '<label for="bet' + i + '">Bet</label>' +
+                '<input type="text" id="bet' + i + '" value="100" />' +
+                '<br />';
+
+            
+
+            parentPlayer.append(playerHTML);
+            parentAction.append(actionHTML);
+            parentAction.append()
+            playerHTML = "";
+            actionHTML = "";
+
+        }
+        actionButtons += '<button id="hit" disabled>Hit</button>' +
+                '<button id="stand" disabled>Stand</button>' +
+                '</div>' +
+                '</div>';
+        parentAction.append(actionButtons);
     },
 
     /**
@@ -247,6 +328,12 @@ Game.prototype = {
     },
 
     render: function () {
+
+        if (this.errors.length > 0) {
+            console.log(this.errors);
+            return;
+        }
+
 
         // Hightlight current state:
         // Hightlights player box or dealer box
@@ -507,7 +594,7 @@ $("#deal").on('click', function() {
     }
 });
 
-$('#hit').on('click', function () {
+$('.hit').on('click', function () {
     // prevent hit/stand when cards are not dealt yet
     if (game.state === 0) {
         return;

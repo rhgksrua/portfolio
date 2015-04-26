@@ -25,6 +25,14 @@
     border: 2px solid #ddd;
     height: 200px;
 }
+.players-container {
+    clear: both;
+}
+
+.player-action-container > div {
+    float: left;
+}
+
 
 .player {
     padding: 20px;
@@ -102,6 +110,7 @@ span {
 }
 
 .game-status {
+    clear: both;
     width: 215px;
     padding: 20px;
 }
