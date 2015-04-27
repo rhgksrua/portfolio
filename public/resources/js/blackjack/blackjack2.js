@@ -27,7 +27,7 @@ var Game = function (players, dealer, playingCards) {
         cardCounting: false
     };
 
-    this.render();
+    //this.render();
 }
 
 Game.prototype = {
@@ -63,11 +63,19 @@ Game.prototype = {
      */
     deal: function () {
         // Adds new deck if empty
+
+        // NEED to check bet amount here.
+
+        if (!this.setBet()) {
+            return false;
+        }
+
+
         this.deckEmpty();
         var i, j, len;
-        for (j = 0; j < 2; j++) {
-            for (i = 0, len = this.players.length; i < len; i++) {
-                this.players[i].cards.push(this.deck.deal()[0]);
+        for (i = 0; i < 2 ; i++) {
+            for (j = 0, len = this.players.length; j < len; j++) {
+                this.players[j].cards.push(this.deck.deal()[0]);
             }
             this.dealer.cards.push(this.deck.deal()[0]);
         }
@@ -76,6 +84,7 @@ Game.prototype = {
         $('#hit').prop('disabled', false);
         $('#stand').prop('disabled', false);
         this.state = 1;
+        return true;
     },
 
     /**
@@ -85,32 +94,37 @@ Game.prototype = {
      * @return {void}
      */
     hit: function () {
+        var newCard;
         this.deckEmpty();
         // Player turn.
         if (this.state === 1) {
             // Prevent busted player from hitting
+            if (this.players[this.playerCursor].blackjack) {
+                this.playerTurnEnd();
+                return;
+            }
             if (this.players[this.playerCursor].bust) {
-                this.state = 2;
+                //this.playerCursor++;
+                this.playerTurnEnd();
+                if (this.playerCursor >= this.playerCount) {
+                    this.state = 2;
+                }
                 return;
 
             }
             // If not bust, hit.
-            var newCard = this.deck.deal()[0];
+            newCard = this.deck.deal()[0];
             this.players[this.playerCursor].cards.push(newCard);
 
+        // Dealer turn. (Dealer is hitting)
         } else if (this.state === 2) {
-            // Dealer turn.
             if (this.dealerbust) {
                 // End of game.
                 this.state = 3;
                 return;
-
             }
-            var newCard = this.deck.deal()[0];
-            //console.log(newCard);
+            newCard = this.deck.deal()[0];
             this.dealer.cards.push(newCard);
-            
-
         }
     },
 
@@ -142,8 +156,7 @@ Game.prototype = {
         for (i = 0, len = this.players.length; i < len; i++) {
             if (this.players[i].cardTotal() === 21) {
                 this.players[i].blackjack = true;
-                this.playerTurnEnd();
-                this.checkWinner();
+                //this.checkWinner();
             }
         }
     },
@@ -167,9 +180,6 @@ Game.prototype = {
         // Deal Cards to players
         console.log("initialize: start blackjack");
         // Check bet amount
-        if (!this.setBet()) {
-            return false;
-        }
         return true;
     },
 
@@ -190,8 +200,16 @@ Game.prototype = {
 
         this.playerCount = numberOfPlayers;
         this.addPlayerHTML(numberOfPlayers);
+        this.addPlayer(numberOfPlayers);
 
         return true;
+    },
+
+    addPlayer: function (num) {
+        var i;
+        for (i = 0; i < num; i++) {
+            this.players.push(new Player);
+        }
     },
 
     addPlayerHTML: function (num) {
@@ -232,7 +250,7 @@ Game.prototype = {
                 '<label for="bet' + i + '">Bet</label>' +
                 '<input type="text" id="bet' + i + '" value="100" />' +
                 '<br />' +
-                '<p id=erros' + i + '"></p>';
+                '<p id=errors' + i + '"></p>';
 
             
 
@@ -248,6 +266,8 @@ Game.prototype = {
                 '</div>' +
                 '</div>';
         parentAction.append(actionButtons);
+        addHitEvent(this);
+        addStandEvent(this);
     },
 
     /**
@@ -260,31 +280,36 @@ Game.prototype = {
         // Need to set be to each players in a loop.
 
 
-        var i, len
-        var bet = +$('#bet').val();
+        var i, len, bet;
+        var err = false;
+        
 
-        // Invalid input
-        // not entered, negative.
-        if (!bet || bet <= 0) {
-            $('#errors').text("Bet Amount Invalid");
+        for (i = 0; i < this.playerCount; i++) {
+            bet = +$('#bet' + i).val();
+            // Invalid input
+            // not entered, negative.
+            if (!bet || bet <= 0) {
+                $('#errors' + i).text("Bet Amount Invalid");
+                err = true;
+            } else if (bet > this.players[i].money) {
+            // bet larger than dealer or player -> error
+                $('#errors' + i).text("Not enough money");
+                err = true;
+            } else {
+                // Set player bet.
+                this.players[i].bet = bet;
+            }
+        }
+
+        if (err) {
             return false;
         }
 
-        // bet larger than dealer or player -> error
-        for (i = 0, len = this.players.length; i < len; i++) {
-            if (bet > this.players[i].money) {
-                $('#errors').text("Not enough money");
-                return false;
-            }
-        }
+
         // Betting successful
-        $('#errors').text("");
+        //$('#errors').text("");
         // Set bet amount in game
-        this.bet = bet;
         // Set bet amount in player
-        this.players.forEach(function(el) {
-            el.bet = bet;
-        });
         return true;
 
     },
@@ -295,6 +320,8 @@ Game.prototype = {
      */
     resetHand: function () {
         // remove cards from player and dealer
+
+        this.playerCursor = 0;
 
         // Clear player
         this.players.forEach(function(el) {
@@ -308,32 +335,39 @@ Game.prototype = {
         this.dealer.blackjack = false;
         this.dealer.bust = false;
 
+
         // Clear screen status
         $('#dealer-status').text("");            
-        $('#player0-status').text("");
+        //$('#player0-status').text("");
     },
 
     checkPlayerBust: function () {
-        if (this.players[0].cardTotal() > 21) {
-            this.players[0].bust = true;
+        if (this.players[this.playerCursor].cardTotal() > 21) {
+            this.players[this.playerCursor].bust = true;
             this.playerTurnEnd();
-            this.state = 3;
-            this.checkWinner();
-        } else if (this.players[0].cardTotal() === 21) {
-            this.state = 3;
+
+        } else if (this.players[this.playerCursor].cardTotal() === 21) {
+
             this.playerTurnEnd();
-            this.checkWinner();
         }
     },
 
     playerTurnEnd: function () {
         // Disables player action.
-        $('#hit').prop('disabled', true);
-        $('#stand').prop('disabled', true);
+        this.playerCursor++;
+        if (game.state > 1) {
+            //$('#hit').prop('disabled', true);
+            //$('#stand').prop('disabled', true);
+        }
+
+        // NOTE: add visual cue to show the turn moved to next player
+        console.log('turn', this.playerCursor);
+
 
     },
 
     render: function () {
+        var playerTotal, i, j, id;
 
         if (this.errors.length > 0) {
             console.log(this.errors);
@@ -354,7 +388,7 @@ Game.prototype = {
         var cardText = "";
 
         // Clear screen
-        $('#player0-status').text("");
+        //$('#player0-status').text("");
         $('#dealer-status').text("");
         $('#dealer-cards').text("");
         $('#player0-cards').text("");
@@ -365,23 +399,42 @@ Game.prototype = {
             $('.card-count').removeClass("show");
         }
 
-        // PLAYER CARDS
-        for (var i = 0, len = this.players[0].cards.length; i < len; i++) {
-            cardText += this.players[0].cards[i].rank + this.players[0].cards[i].suit + " ";
-        }
-        $('#player0-cards').text(cardText);
+        // PLAYER INFO
+        for (j = 0; j < this.playerCount; j++) {
+            id = '#player' + j;
+            cardsId = id + '-cards';
+            totalId = id + '-total';
+            statusId = id + '-status';
+            moneyId = id + '-money';
 
-        // Player blackjack
-        // End player turn and move to dealer turn
-        if (this.players[0].blackjack) {
-            $('#player0-status').text("BLACKJACK!");
+            for (i = 0, len = this.players[j].cards.length; i < len; i++) {
+                console.log('adding card to player', i);
+                cardText += this.players[j].cards[i].rank + this.players[j].cards[i].suit + " ";
+            }
+            $(cardsId).text(cardText);
+            cardText = "";
+
+            // Check each player for blackjack
+            if (this.players[j].blackjack) {
+                $(statusId).text("BLACKJACK!");
+            }
+
+            // Show total
+            playerTotal = this.players[j].cardTotal();
+            if (playerTotal > 0) {
+                $(totalId).text(playerTotal);
+            }
+
+            // Show Bust
+            if (this.players[j].bust) {
+                $(statusId).text("BUST");
+            }
+
+            // Show players money
+            $(moneyId).text(this.players[j].money);
         }
 
         // show player total card value
-        var playerTotal = this.players[0].cardTotal();
-        if (playerTotal > 0) {
-            $('#player0-total').text(this.players[0].cardTotal());
-        }
 
         // DEALER CARDS
         cardText = "";
@@ -405,9 +458,6 @@ Game.prototype = {
         }
 
         // Checking player bust and change game state
-        if (this.players[0].bust) {
-            $('#player0-status').text("BUST");
-        }
         if (this.dealer.bust) {
             $('#dealer-status').text("BUST");
         }
@@ -422,7 +472,6 @@ Game.prototype = {
         }
 
         $('#dealer-money').text(this.dealer.money);
-        $('#player0-money').text(this.players[0].money);
 
         // Show number of cards left in deck
         $('#card-count').text(this.deck.count());
@@ -436,6 +485,16 @@ Game.prototype = {
         switch (this.state) {
             case 1:
                 // Player turn
+
+                if (this.playerCursor >= this.playerCount) {
+                    this.dealerTurn();
+                    this.checkWinner();
+                }
+                
+                // SKip player if blackjack
+                if (this.players[this.playerCursor] && this.players[this.playerCursor].blackjack) {
+                    this.playerTurnEnd();
+                }
                 break;
             case 2:
                 this.dealerTurn();
@@ -451,60 +510,64 @@ Game.prototype = {
     },
 
     checkWinner: function(state) {
+        var i, len;
         // TODO: separate output of winners
 
         // Enable deal button and bet input
         $('#deal').prop('disabled', false);
         $('#bet').prop('disabled', false);
 
-        if (this.players[0].blackjack) {
-            console.log('player blackjack!');
-            this.players[0].money += Math.floor((+this.bet) * 1.5);
-            this.dealer.money -= Math.floor((+this.bet) * 1.5);
-            $('#game-status').text("Player BLACKJACK!!!!  win " + Math.floor((+this.bet) * 1.5));
-            $('.player').addClass('winner');
-            return;
-        }
-        
-        // Check for bust
-        if (this.players[0].bust) {
-            // Player Bust
-            console.log("player busts, player loses");
-            // Give Bets
-            this.players[0].money -= +this.bet;
-            this.dealer.money += +this.bet;
-            $('#game-status').text("Player loses" + this.bet);
-            $('.dealer').addClass('winner');
-            return;
-        } else if (this.dealer.bust) {
-            // Dealer bust
-            console.log("dealer busts, player wins");
-            this.players[0].money += +this.bet;
-            this.dealer.money -= +this.bet;
-            $('#game-status').text("Player wins " + this.bet);
-            $('.player').addClass('winner');
 
-            return;
-        }
+        for (i = 0; i < this.playerCount; i++) {
 
-        // Compare hand values
-        if (this.players[0].cardTotal() < this.dealer.cardTotal()) {
-            console.log('player loses');
-            this.players[0].money -= +this.bet;
-            this.dealer.money += +this.bet;
-            $('#game-status').text("Player loses " + this.bet);
-            $('.dealer').addClass('winner');
-        } else if (this.players[0].cardTotal() === this.dealer.cardTotal()) {
-            $('#game-status').text("No Winner");
-            $('.player').addClass('push');
-            $('.dealer').addClass('push');
-            console.log('PUSH');
-        } else {
-            console.log('player wins');
-            this.dealer.money -= +this.bet;
-            this.players[0].money += +this.bet;
-            $('#game-status').text("Player wins " + this.bet);
-            $('.player').addClass('winner');
+            id = '#player' + i;
+            cardsId = id + '-cards';
+            totalId = id + '-total';
+            statusId = id + '-status';
+            moneyId = id + '-money';
+
+            if (this.players[i].blackjack) {
+                console.log('player blackjack!');
+                this.players[i].money += Math.floor((+this.players[i].bet) * 1.5);
+                this.dealer.money -= Math.floor((+this.players[i].bet) * 1.5);
+                $(statusId).text("BLACKJACK! win " + Math.floor((+this.players[i].bet) * 1.5));
+                $('.player').addClass('winner');
+                return;
+            }
+            
+            // Check for bust
+            if (this.players[i].bust) {
+                // Player Bust
+                console.log("player busts, player loses");
+                // Give Bets
+                this.players[i].money -= +this.players[i].bet;
+                this.dealer.money += +this.players[i].bet;
+                $(statusId).text("Player loses" + this.players[i].bet);
+                return;
+            } else if (this.dealer.bust) {
+                // Dealer bust
+                console.log("dealer busts, player wins");
+                this.players[i].money += +this.players[i].bet;
+                this.dealer.money -= +this.players[i].bet;
+                $(statusId).text("Player wins " + this.players[i].bet);
+                return;
+            }
+
+            // Compare hand values
+            if (this.players[i].cardTotal() < this.dealer.cardTotal()) {
+                console.log('player loses');
+                this.players[i].money -= +this.players[i].bet;
+                this.dealer.money += +this.players[i].bet;
+                $(statusId).text("Player loses " + this.players[i].bet);
+            } else if (this.players[i].cardTotal() === this.dealer.cardTotal()) {
+                $(statusId).text("PUSH");
+                console.log('PUSH');
+            } else {
+                console.log('player wins');
+                this.dealer.money -= +this.players[i].bet;
+                this.players[i].money += +this.players[i].bet;
+                $(statusId).text("Player wins " + this.players[i].bet);
+            }
         }
 
         // A round of blackjack has ended
@@ -567,63 +630,73 @@ Player.prototype = {
 // 3: game ended.
 
 // Start Blackjack
-var game = new Game([new Player], new Player(true), new PlayingCards);
+var game = new Game([], new Player(true), new PlayingCards);
 
 //$('#dealer-money').text(game.dealer.money);
 //$('#player0-money').text(game.players[0].money);
 
+// Start button
+$('#start').on('click', function() {
+    if (!game.init()) {
+        return;
+    } else {
+
+    }
+});
 
 // At state 0, These steps must happen
 $("#deal").on('click', function() {
-    if (!game.init()) {
-        // Check bet amount
-        return;
-    } else {
-        $('#game-status').text("");
-        $('.player').removeClass('winner');
-        $('.dealer').removeClass('winner');
-        $('.player').removeClass('push');
-        $('.dealer').removeClass('push');
-        $('#bet').prop('disabled', true);
-        // Valid bet
-        // 
-        // Remove previous hand
-        game.resetHand();
-        // Deal cards
-        game.deal();
-        // Check if player has blackjack
-        game.checkPlayerBlackjack();
-        // render on screen
+    $('#game-status').text("");
+    $('.player').removeClass('winner');
+    $('.dealer').removeClass('winner');
+    $('.player').removeClass('push');
+    $('.dealer').removeClass('push');
+    $('#bet').prop('disabled', true);
+    // Valid bet
+    // 
+    // Remove previous hand
+    game.resetHand();
+    // Deal cards
+
+    if (!game.deal()) {
+        return false;
+    }
+    // Check if player has blackjack
+    game.checkPlayerBlackjack();
+    // render on screen
+    game.render();
+    // What to do next
+    game.nextAction();
+});
+
+function addHitEvent(game) {
+    $('#hit').on('click', function () {
+        // prevent hit/stand when cards are not dealt yet
+        console.log("hit clicked");
+        if (game.state === 0) {
+            return;
+        }
+        game.hit();
+        game.checkPlayerBust();
         game.render();
-        // What to do next
         game.nextAction();
-    }
-});
+    });
+}
 
-$('.hit').on('click', function () {
-    // prevent hit/stand when cards are not dealt yet
-    if (game.state === 0) {
-        return;
-    }
-    game.hit();
-    game.checkPlayerBust();
-    game.render();
-    game.nextAction();
-});
+function addStandEvent(game) {
+    $('#stand').on('click', function() {
+        // prevent hit / stand when cards are not dealt yet
+        if (game.state === 0) {
+            return;
+        }
 
-$('#stand').on('click', function() {
-    // prevent hit / stand when cards are not dealt yet
-    if (game.state === 0) {
-        return;
-    }
+        // End player turn.  Goto dealer Turn
+        game.playerTurnEnd();
 
-    // End player turn.  Goto dealer Turn
-    game.playerTurnEnd();
+        // state = 2 means start of dealer turn
+        game.nextAction();
+        //game.dealerTurn();
 
-    // state = 2 means start of dealer turn
-    game.state = 2;
-    game.nextAction();
-    //game.dealerTurn();
-
-    game.render();
-})
+        game.render();
+    })
+}

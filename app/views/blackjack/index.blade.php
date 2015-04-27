@@ -18,6 +18,8 @@
             <br />
             <input type="text" size="1" id="player-count" value="2" />Number of Players (Max: 4)
             <br />
+            <button id="start">START</button>
+            <br />
             <button id="deal">Deal</button>
 
         </div>
