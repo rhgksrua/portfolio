@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+}
+
+button {
+  width: 100px;
+  margin: 10px;
+}
+
+#controls {
+  position: absolute;
+  left: 400px;
+  top: 100px;
+  height: 100px;
+  width: 100px;
+}

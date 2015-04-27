@@ -144,6 +144,8 @@ Game.prototype = {
             // game ended
         }
 
+        this.dealer.bust = true;
+
         this.state = 3;
     },
 
@@ -229,7 +231,7 @@ Game.prototype = {
 
         for (i = 0; i < num; i++) {
 
-            playerHTML += '<div class="player left">' +
+            playerHTML += '<div class="player player' + i + ' left">' +
                 '<h2>Player ' + i + '</h2>' +
                 '<p>Cards: </p>' +
                 '<div id="player' + i + '-cards"></div>' +
@@ -338,6 +340,9 @@ Game.prototype = {
 
         // Clear screen status
         $('#dealer-status').text("");            
+        for (i = 0; i < this.playerCount; i++) {
+            $('#player' + i + '-status').text("");
+        }
         //$('#player0-status').text("");
     },
 
@@ -374,11 +379,12 @@ Game.prototype = {
             return;
         }
 
+        $('.player').removeClass('turn-cursor');
 
         // Hightlight current state:
         // Hightlights player box or dealer box
         if (this.state <= 1) {
-            $('.player').addClass('turn-cursor');
+            $('.player' + this.playerCursor).addClass('turn-cursor');
             $('.dealer').removeClass('turn-cursor');
         } else {
             $('.player').removeClass('turn-cursor');
@@ -518,7 +524,7 @@ Game.prototype = {
         $('#bet').prop('disabled', false);
 
 
-        for (i = 0; i < this.playerCount; i++) {
+        for (i = 0; i < this.players.length; i++) {
 
             id = '#player' + i;
             cardsId = id + '-cards';
@@ -617,7 +623,6 @@ Player.prototype = {
         } else {
             this.bust = false;
         }
-
         return total;
     }
 
@@ -664,9 +669,9 @@ $("#deal").on('click', function() {
     // Check if player has blackjack
     game.checkPlayerBlackjack();
     // render on screen
-    game.render();
     // What to do next
     game.nextAction();
+    game.render();
 });
 
 function addHitEvent(game) {

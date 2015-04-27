@@ -1,0 +1,1 @@
+/var/www/laravel/resources/views/arcs/create.blade.php
