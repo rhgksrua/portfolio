@@ -40,7 +40,7 @@
 	@section('footer')
 		<footer>
 			<div class="footer-container top-divider">
-				Copyright © 2015 rhgksrua.  All rights reserved.
+				2015 rhgksrua
 			</div>
 			<script>
 				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

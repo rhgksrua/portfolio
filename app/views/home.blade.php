@@ -50,6 +50,10 @@
 						<a href="/blackjack">Blackjack</a>
 						<span>Simple blackjack card game with JQuery</span>
 					</li>
+					<li class="project">
+						<a href="/arcs">Arcs</a>
+						<span>Create arcs</span>
+					</li>
 				</ul>
 			</div>
 		</div>

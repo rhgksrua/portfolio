@@ -44,6 +44,13 @@ Route::get('/blackjack', 'BlackjackController@index');
 
 /**
  *
+ * Arcs
+ *
+ */
+Route::get('/arcs', 'ArcsController@index');
+
+/**
+ *
  * Tutorial summary
  * Links to tutorials with short summary.
  * 
