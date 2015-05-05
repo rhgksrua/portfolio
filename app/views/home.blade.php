@@ -9,6 +9,7 @@
 	{{ HTML::style('/resources/css/home.css') }}
 </head>
 <body>
+	{{ App::environment() }}
 	<div class="container">
 		<!-- Start of header: contains title and links to resources -->
 		<header>

@@ -26,7 +26,8 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('homestead'),
+	'local' => array('packer-virtualbox-iso-1422601639'),
+    'production' => array('Portfolio'),
 
 ));
 
