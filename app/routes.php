@@ -14,7 +14,7 @@
 /**************************************************************************
  *
  * PROJECT URLS
- * 
+ *
  *
  * ***********************************************************************/
 
@@ -36,8 +36,15 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
 
 /**
  *
+ * URL shortener
+ *
+ */
+Route::get('/urlshortener', 'UrlShortenerController@index');
+
+/**
+ *
  * BlackJack Card Game!!!!!!~~~!!!~~~!!!
- * 
+ *
  */
 Route::get('/blackjack', 'BlackjackController@index');
 
@@ -53,7 +60,7 @@ Route::get('/arcs', 'ArcsController@index');
  *
  * Tutorial summary
  * Links to tutorials with short summary.
- * 
+ *
  */
 
 Route::get('/tutorials', 'TutorialsController@index');
@@ -147,10 +154,10 @@ Route::get('/elotest', function() {
 
     $tut = Tutorial::find(1)->usings;
     dd($tut);
-    
+
 
     dd();
-    
+
 });
 
 
