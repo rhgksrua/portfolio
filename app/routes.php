@@ -143,42 +143,48 @@ App::missing(function($exception)
 /*************************************************************************
  *
  * TEST URLS
+ * Only works under local dev env.
  *
  ************************************************************************/
 
-Route::get('/bower', function() {
-    return View::make('test');
-});
-
-Route::get('/elotest', function() {
-
-    $tut = Tutorial::find(1)->usings;
-    dd($tut);
-
-
-    dd();
-
-});
-
-
-Route::get('/templatetest', function() {
-    return View::make('test');
-});
-
-Route::get('/urltest', 'UrlCheckerController@checkUrl');
-Route::any('/test', function() {
-
-    // USE THIS to return more than true/false back to urlchecker
-    $url = 'http://www.google.com';
-    $url_headers = get_headers($url);
-    return Response::json(['hello', 'world']);
-});
-
-Route::get('/jstest', function() {
-    return filter_var('http://www.googlem', FILTER_VALIDATE_URL) ? "yup" : "not a url";
-});
-
-Route::get('/authtest', array('before' => 'auth.basic', function()
+Route::group(array('before' => 'local'), function()
 {
-    return "works";
-}));
+	Route::get('/envtest', function() {
+		return App::environment();
+	});
+
+	Route::get('/bower', function() {
+	    return View::make('test');
+	});
+
+	Route::get('/elotest', function() {
+
+	    $tut = Tutorial::find(1)->usings;
+	    dd($tut);
+	    dd();
+	});
+
+
+	Route::get('/templatetest', function() {
+	    return View::make('test');
+	});
+
+	Route::get('/urltest', 'UrlCheckerController@checkUrl');
+	Route::any('/test', function() {
+
+	    // USE THIS to return more than true/false back to urlchecker
+	    $url = 'http://www.google.com';
+	    $url_headers = get_headers($url);
+	    return Response::json(['hello', 'world']);
+	});
+
+	Route::get('/jstest', function() {
+	    return filter_var('http://www.googlem', FILTER_VALIDATE_URL) ? "yup" : "not a url";
+	});
+
+	Route::get('/authtest', array('before' => 'auth.basic', function()
+	{
+	    return "works";
+	}));
+
+});

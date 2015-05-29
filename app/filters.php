@@ -88,3 +88,20 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Local Environment Filter
+|--------------------------------------------------------------------------
+|
+| Test uri is not accessible from production environment
+|
+*/
+Route::filter('local', function()
+{
+	if (App::environment() == 'production')
+	{
+		App::abort(404);
+	}
+});

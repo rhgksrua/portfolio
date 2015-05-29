@@ -39,6 +39,10 @@
 						<span>Check url status</span>
 					</li>
 					<li class="project">
+						<a href="/urlshortener">Url Shortener</a>
+						<span>Shorten urls</span>
+					</li>
+					<li class="project">
 						<a href="/tutorials">Tutorials</a>
 						<span>Stuff stuff stuff tutorial stuff</span>
 					</li>
