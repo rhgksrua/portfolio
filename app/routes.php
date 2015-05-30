@@ -40,6 +40,7 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
  *
  */
 Route::get('/urlshortener', 'UrlShortenerController@index');
+Route::post('/urlshortener', 'UrlShortenerController@shorten');
 
 /**
  *
