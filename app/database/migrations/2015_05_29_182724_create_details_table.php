@@ -17,8 +17,9 @@ class CreateDetailsTable extends Migration {
 			$table->increments('id');
 			$table->integer('link_id')->unsigned();
 			$table->foreign('link_id')->references('id')->on('links')->onDelete('cascade');
-			$table->integer('ip');
+			$table->bigInteger('ip');
 			$table->integer('count');
+			$table->timestamps();
 
 
 		});

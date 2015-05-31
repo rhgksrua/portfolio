@@ -42,9 +42,7 @@ Route::post('/urlchecker', 'UrlCheckerController@checkUrl');
 Route::get('/urlshortener', 'UrlShortenerController@index');
 Route::post('/urlshortener', 'UrlShortenerController@shorten');
 
-Route::get('/urlshortener/{short}', function($short) {
-	return 'yup';
-});
+Route::get('/urlshortener/{short}', 'UrlShortenerController@redirect');
 
 
 /**
