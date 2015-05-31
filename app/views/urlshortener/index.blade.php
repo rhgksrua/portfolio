@@ -14,6 +14,9 @@
         <form action='/urlshortener' method='post'>
             <input id='url' type='text' name='url' placeholder='Enter URL Here'>
             <input id='btn' type='submit' value='Shorten!'>
+		    @if ($errors->any())
+		    <span class='errors'>{{$errors->first()}}</span>
+		    @endif
         </form>
     </div>
 

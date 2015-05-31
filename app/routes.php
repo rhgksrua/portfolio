@@ -43,6 +43,7 @@ Route::get('/urlshortener', 'UrlShortenerController@index');
 Route::post('/urlshortener', 'UrlShortenerController@shorten');
 
 Route::get('/urlshortener/{short}', 'UrlShortenerController@redirect');
+Route::get('/urlshortener/{short}/details', 'UrlShortenerController@details');
 
 
 /**

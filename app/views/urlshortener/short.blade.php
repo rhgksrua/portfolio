@@ -13,7 +13,7 @@
     <div class='shortener-container'>
     	<p>Shortened URL</p>
     	<p><a href='/urlshortener/{{ $url }}'>{{ Request::root() }}/urlshortener/{{ $url }}</a></p>
-
+    	<p>You can visit <a href='/urlshortener/{{ $url }}/details'>{{ Request::root() }}/urlshortener/{{ $url }}/details</a> for more details.</p>
     </div>
 
 @stop

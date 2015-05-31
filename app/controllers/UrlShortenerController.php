@@ -7,9 +7,29 @@ class UrlShortenerController extends BaseController
 		return View::make('urlshortener.index');
     }
 
+    public function details($short)
+    {
+        // Get all link info and history
+        try {
+            $link = Link::where('short_url', '=', $short)->firstOrFail();
+            $details = Detail::where('link_id', '=', $link->id)->get();
+        } catch (Exception $e) {
+            return "not found";
+        }
+
+        return View::make('urlshortener.details')
+            ->with('link', $link)
+            ->with('details', $details);
+    }
+
     public function shorten()
     {
+        // Validate
         $url = Input::get('url');
+        if (empty($url)) {
+            return Redirect::back()->withErrors(['Invalid URL']);
+        }
+
         $url = filter_var($url, FILTER_SANITIZE_URL);
         $link = new Link;
         $link->url = $url;
